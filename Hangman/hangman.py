@@ -15,3 +15,9 @@ while Running:
 
     screen.fill((0,0,0))
     screen.blit(screen, (0,0))
+    for event in pygame.event.get():
+        if event.type == pygame.quit():
+            Running = False
+
+
+pygame.quit()
