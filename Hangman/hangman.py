@@ -7,6 +7,9 @@ import random
 #terminal where game happens
 screen = pygame.display.set_mode((800,600))
 
+#here is where the images of the game is loaded
+#load images ()
+#pygame.image.load
 
 
 #making the bg stick until the user quits
