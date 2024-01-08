@@ -1,26 +1,23 @@
-import pygame
-import os
-
+import pygame, sys
 import random
+from list import easy_categories_list
+
+pygame.init()
 
 
-#terminal where game happens
+#create screen
+Background=pygame.image.load("assets/BG.png")
 screen = pygame.display.set_mode((800,600))
-
-#here is where the images of the game is loaded
-#load images ()
-#pygame.image.load
+pygame.display.set_caption ("Hangman")
 
 
-#making the bg stick until the user quits
-Running = True
-while Running:
-
-    screen.fill((0,0,0))
-    screen.blit(screen, (0,0))
+#game loop
+running = True
+while running:
+    
     for event in pygame.event.get():
-        if event.type == pygame.quit():
-            Running = False
 
-
-pygame.quit()
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            running = False
+    pygame.display.update()
