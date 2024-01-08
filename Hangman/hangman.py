@@ -17,7 +17,7 @@ status_png[0] = pygame.image.load("assets/firekeeper1.png")
 status_png[1] = pygame.image.load("assets/firekeeper2.png")
 status_png[2] = pygame.image.load("assets/firekeeper3.png")
 status_png[3] = pygame.image.load("assets/firekeeper4.png")
-status_png[4] = pygame.image.load("assets/firekeeper5.png")  #make sure there is the corresponding pngs in the assets folder 
+status_png[4] = pygame.image.load("assets/firekeeper5.png")  #make sure there is the corresponding pngs in the assets folder! PROGRAM WILL NOT RUN IF NO IMAGES WITHT THE SAME NAME.
 status_png[5] = pygame.image.load("assets/firekeeper6.png")  #these can be made more efficient but no brain power atm
 
 
