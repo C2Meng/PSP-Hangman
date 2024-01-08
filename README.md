@@ -12,11 +12,15 @@ Some features of the game include <br>
 I)name <br>
 II)where to store info <br>
 III) save files <br>
+
 -additional items can be obtained to help the player <br>
+
 -potential dialogue <br>
 I)dialogue box <br>
+
 -timer<br>
 I)loop for timer <br>
+
 -riddles? if run out, return to normal hangman <br>
 I) if statement to check if there's riddles left <br>
 
