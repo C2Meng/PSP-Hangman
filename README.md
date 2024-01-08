@@ -6,7 +6,7 @@ To do so, the evil witch hunter has proposed a game in which you must guess the 
 With each wrong guess, the witch hunter will add fire to the burning stakes, burning the firekeeper alive.
 However the fire keeper is blessed by the gods, and the hero will be given guidance if the god takes pity. (rng chance)
 
-Some extra features of the game include
--additional items can be obtained to help the player
--potential dialogue
--timer
+Some extra features of the game include <br>
+-additional items can be obtained to help the player <be>
+-potential dialogue <br>
+-timer 
