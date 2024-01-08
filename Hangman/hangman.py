@@ -24,7 +24,16 @@ status_png[5] = pygame.image.load("assets/firekeeper6.png")  #these can be made 
 #game
 firekeeper_status = 0
 
+#guess, "1= fail , 0 = success"
+#tobeguessed= "word from list" + len(word) as underline"
+#if alphabet in word:
+    #alphabet typed will fill in blank underline
+    
 
+#suggestion for letter and words (sofia)
+#can use if event.key == pygame.K_("Here is where you put the alphabet") to detect keyboard input
+#(tedious if you use the if statement for each alphabet, a shortcut if able // maybe functions?? idk)
+#how the blank word should appear 
 
 #game loop
 running = True
