@@ -11,3 +11,5 @@ Some extra features of the game include <br>
 -additional items can be obtained to help the player <br>
 -potential dialogue <br>
 -timer<br>
+-riddles? if run out, return back to normal hangman <br>
+
