@@ -1,4 +1,4 @@
-This is a group coursework for PSP0101
+This is a group coursework for PSP0101. This is a game based on Hangman.
 
 You are the hero who needs to save the firekeeper from being burned. (Salem witch trials moment, they kantoi playing magic the gathering smh)
 
