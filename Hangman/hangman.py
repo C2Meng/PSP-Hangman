@@ -22,7 +22,7 @@ status_png[5] = pygame.image.load("assets/firekeeper6.png")  #these can be made 
 
 
 #game
-firekeeper_status = 3
+firekeeper_status = 0
 
 
 
