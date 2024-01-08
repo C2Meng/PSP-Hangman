@@ -1,6 +1,6 @@
 import pygame, sys
 import random
-from list import easy_categories_list
+from list import easy_categories_list #revision to be made on lists to import
 
 pygame.init()
 FPS = 60
