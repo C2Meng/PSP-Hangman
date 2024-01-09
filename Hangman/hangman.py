@@ -38,6 +38,7 @@ firekeeper_status = 0
 #game loop
 running = True
 while running:
+    screen.blit(Background, (0,0))
     pygame.display.update()
     screen.blit(status_png[firekeeper_status],(150,100))
     clock.tick(FPS)
