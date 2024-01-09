@@ -27,8 +27,8 @@ def create_user_profile():
                 print("Invalid input. Please enter a valid Student ID.")
         faculty = input("Enter your faculty: ")
     else:
-        student_id = None
-        faculty = None
+        student_id = "Invalid"
+        faculty = "Invalid"
 
 
     user_profile = {
