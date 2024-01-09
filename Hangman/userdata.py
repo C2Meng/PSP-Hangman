@@ -13,11 +13,11 @@ def create_user_profile():
     gender = input("Enter your gender: ")
     while True:
         student = input("Are you a student of MMU? Enter yes or no: ")
+        student = student.lower()
         if student in ["yes", "no"]:
             break
         else:
             print("Invalid input. Please enter a valid command, yes or no.")
-    student = student.lower()
     global stu
     stu = student
 
