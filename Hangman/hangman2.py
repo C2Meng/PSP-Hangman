@@ -1,6 +1,6 @@
 import pygame,sys
 import random
-from souls_like_list import words
+
 
 pygame.init()
 #screen
@@ -60,21 +60,6 @@ def game():
                 
           #word display
           #randomiser()
-          word_display = ""
-          
-          
-          for letter in word:
-            
-          
-            if letter in correct_guess:
-                word_display += letter + " "
-
-          
-            else:
-                word_display += "_" + " "
-
-          text = game_text.render(word_display ,1, 'black')
-          screen.blit(text, ( 500,200))
 
         
                
@@ -104,9 +89,11 @@ small_text = pygame.font.SysFont('times new roman', 25)
 def main_menu():
 
     running = True
+    color_loop = True
     while running:
         screen.fill("black")
         #screen.blit(background, (0,0))
+
         #displaying menu text
         display = "BURN THE WITCH"
         sub_display = "press any key to start"
@@ -115,6 +102,10 @@ def main_menu():
 
         text_2 = small_text.render(sub_display, 1, "white")
         screen.blit(text_2, (370,400))
+        
+        #while color_loop:
+             #text_2 = small_text.render(sub_display, 1, "grey")
+             #text_2 = small_text.render(sub_display, 1, "white")
 
     
 
