@@ -12,7 +12,7 @@ pygame.display.set_caption("Burn the Witch!")
 
 #import images 
 status_png = [0,1,2,3,4,5]
-status_png[0] = pygame.image.load("assets/firekeeper.jpg")
+status_png[0] = pygame.image.load("assets/firekeeper1.png")
 status_png[1] = pygame.image.load("assets/firekeeper2.png")
 status_png[2] = pygame.image.load("assets/firekeeper3.png")
 status_png[3] = pygame.image.load("assets/firekeeper4.png")
