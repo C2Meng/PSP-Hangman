@@ -23,11 +23,8 @@ status_png[5] = pygame.image.load("assets/firekeeper5.png")
 
 #game status
 firekeeper_status = 0
-
-#guess, "1= fail , 0 = success"
-#tobeguessed= "word from list" + len(word) as underline"
-#if alphabet in word:
-    #alphabet typed will fill in blank underline
+correct_guess = 0
+attempts = 5
 
 #colour
 white = (255,255,255)
@@ -35,21 +32,20 @@ black = (0,0,0)
 #font
 font1 = pygame.font.Font(None,60)
 font2 = pygame.font.Font(None,30)
+
 #user input
 input_letter = ''
-#draw box
-input_box = pygame.Rect(100, 100, 140, 32)
 
 #words list
 word = ["applepie","car","pizza","popular"]
 guessed_word = random.choice(word)
 hidden_word = ["_"] * len(guessed_word)
-#display guess word
+
+#displays
 def display_guess_word():
     word_text = font1.render(" ".join(hidden_word), True, white)
     screen.blit(word_text, (300,200))
-correct_guess = 0
-attempts = 5
+
 def display_attempts():
     attempts_surface = pygame.Surface((180,30))
     screen.blit(attempts_surface, (15,15))
@@ -80,14 +76,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            running = False
-        if event.type == pygame.MOUSEBUTTONDOWN: #check mouse pos to blit stuff to screen
-            print(pygame.mouse.get_pos())     
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_BACKSPACE:
-        #         input_letter = input_letter[:-1]
-        #     else:
-        #         input_letter += event.unicode
+            running = False     
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE:
                 input_letter = input_letter[:-1]
