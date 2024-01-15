@@ -9,6 +9,15 @@
 # Phones: +6 | +6 | +6 | +60125293192
 # ********************************************************* 
 
+# ********************************************************* 
+# TO DO LIST
+# 1. option button for difficulty 
+# 2. user login screen
+# 3. leaderboard
+# 4. minigame
+# 5. intro screen
+# 6. game repeat loop (I.E: asking user want play again anot (Y/N))
+# ********************************************************* 
 
 import pygame,sys
 import random
