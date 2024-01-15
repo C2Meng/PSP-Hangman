@@ -67,6 +67,13 @@ target_surface = font.render(current_word, black)
 target_rect = target_surface.get_rect(center=(width // 2, height // 4 ))
 screen.blit(target_surface, target_rect)
 
+# pausing before next iteration
+pygame.time.delay(2000)
+
+# end of the game
+pygame.quit()
+sys.exit()
+
 
         
 
