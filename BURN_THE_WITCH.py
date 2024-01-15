@@ -1,3 +1,15 @@
+# ********************************************************* 
+# Program: BURN_THE_WITCH.py 
+# Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN 
+# Class: TL10
+# Year: 2023/24 Trimester 1 
+# Names: WINNIE LEE WEN NI | YAP YANG YI | YAP YANG YI | CHAN CHUAN MENG
+# IDs: MEMBER_ID_1 | MEMBER_ID_2 | MEMBER_ID_3 | 1221107931
+# Emails: @student.mmu.edu.my | @student.mmu.edu.my | @student.mmu.edu.my | 1221107931@student.mmu.edu.my
+# Phones: +6 | +6 | +6 | +60125293192
+# ********************************************************* 
+
+
 import pygame,sys
 import random
 
