@@ -128,12 +128,16 @@ def game():
             screen.blit(attempts_text, (20,20))
 
           def display_lose():
-            lose_text = font1.render("YOU LOSE!", True, "red")
-            screen.blit(lose_text, (330,100))
+            win_surface= pygame.Surface((1000,80))
+            screen.blit(win_surface, (0,100))
+            lose_text = font1.render("YOU LOST", True, "red")
+            screen.blit(lose_text, (335,105))
 
           def display_win():
-            lose_text = font1.render("YOU WIN!", True, "yellow")
-            screen.blit(lose_text, (330,100))
+            lose_surface= pygame.Surface((1000,80))
+            screen.blit(lose_surface, (0,100))
+            lose_text = font1.render("YOU WIN", True, "yellow")
+            screen.blit(lose_text, (330,105))
 
           display_guess_word()
           display_attempts()
