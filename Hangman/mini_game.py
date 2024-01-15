@@ -40,12 +40,12 @@ user_input = ""
 current_word = generate_word()
 
 for event in pygame.event.get():
-       if event.type == pygame.QUIT
+       if event.type == pygame.QUIT:
            pygame.quit()
            sys.exit()
        elif event.type == pygame.KEYDOWN:
            if event.key == pygame.K_RETURN:
-               if user_input == curent_word:
+               if user_input == current_word:
                   message1 = font.render(win_msg, black)
                else:
                   message2 = font.render(lose_msg, black)
