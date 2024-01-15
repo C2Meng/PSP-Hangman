@@ -58,12 +58,12 @@ for event in pygame.event.get():
 screen.fill(white)
 
 # render user input
-input_surface = font.render(user_input, black)
+input_surface = font.render(user_input, black, True)
 input_rect = input_surface.get_rect(center=(width // 2, height // 2 ))
 screen.blit(input_surface, input_rect)
 
 # render target text
-target_surface = font.render(current_word, black)
+target_surface = font.render(current_word, black, True)
 target_rect = target_surface.get_rect(center=(width // 2, height // 4 ))
 screen.blit(target_surface, target_rect)
 
