@@ -64,6 +64,21 @@ small_text = pygame.font.SysFont('times new roman', 20)
 #def leaderboard():
      
 #def quit():
+def intro():
+     
+    running = True
+    while running:
+          screen.fill("black")
+
+
+          for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        running = False
+                        sys.exit()
+
+
+          pygame.display.update()
 
 def user_login():
      running = True
