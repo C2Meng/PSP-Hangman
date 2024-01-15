@@ -9,6 +9,7 @@ screen = pygame.display.set_mode((1000,600))
 
 #background
 background = pygame.image.load("assets/background3.jpg")
+background = pygame.transform.scale(background, (1000,600))
 pygame.display.set_caption("Burn the Witch!")
 
 #import images 
@@ -32,7 +33,8 @@ attempts = 5
 input_letter = ''
 
 #words lists
-word = ["applepie","car","pizza","popular"]
+word = ["applepie","car","pizza","popular", "estus", "bonfire", "souls", "ember", "undead", 
+        "lordvessel", "hollow", "kindled", "sunbro", "covenant"]
 guessed_word = random.choice(word)
 hidden_word = ["_"] * len(guessed_word)
 
@@ -73,7 +75,7 @@ def game():
      running = True 
      while running:
           screen.blit(background, (0,0))
-          screen.blit(status_png[firekeeper_status],(630,30))
+          screen.blit(status_png[firekeeper_status],(630,150))
           screen.blit(player, (10,265))
           #word randomiser
           #def randomiser():
@@ -90,21 +92,21 @@ def game():
           #displays
           def display_guess_word():
               word_text = font1.render(" ".join(hidden_word), True, white)
-              screen.blit(word_text, (300,200))
+              screen.blit(word_text, (150,200))
 
           def display_attempts():
-            attempts_surface = pygame.Surface((180,40))
+            attempts_surface = pygame.Surface((210,40))
             screen.blit(attempts_surface, (15,15))
             attempts_text = font2.render(f"Attempts left:  {attempts}", True, white)
             screen.blit(attempts_text, (20,20))
 
           def display_lose():
-            lose_text = font1.render("YOU LOSE!", True, white)
-            screen.blit(lose_text, (350,100))
+            lose_text = font1.render("YOU LOSE!", True, "red")
+            screen.blit(lose_text, (330,100))
 
           def display_win():
-            lose_text = font1.render("YOU WIN!", True, white)
-            screen.blit(lose_text, (350,100))
+            lose_text = font1.render("YOU WIN!", True, "yellow")
+            screen.blit(lose_text, (330,100))
 
           display_guess_word()
           display_attempts()
