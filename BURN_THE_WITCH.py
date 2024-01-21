@@ -1,9 +1,9 @@
 # ********************************************************* 
 # Program: BURN_THE_WITCH.py 
 # Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN 
-# Class: TL10-01
+# Class: TL10
 # Year: 2023/24 Trimester 1 
-# Names: WINNIE LEE WEN NI | YAP YANG YI | SOFIA BINTI HANISMAN| CHAN CHUAN MENG
+# Names: WINNIE LEE WEN NI | SOFIA BINTI HANISMAN | YAP YANG YI | CHAN CHUAN MENG
 # IDs: MEMBER_ID_1 | MEMBER_ID_2 | MEMBER_ID_3 | 1221107931
 # Emails: @student.mmu.edu.my | @student.mmu.edu.my | @student.mmu.edu.my | 1221107931@student.mmu.edu.my
 # Phones: +6 | +6 | +6 | +60125293192
@@ -11,21 +11,33 @@
 
 # ********************************************************* 
 # TO DO LIST
-# 1. option button for difficulty 
+# 1. option button for difficulty, categories etc
 # 2. user login screen
 # 3. leaderboard
 # 4. minigame
 # 5. intro screen
 # 6. game repeat loop (I.E: asking user want play again anot (Y/N))
+# -Reset lives, reset word, reset guess
+
+
+
+
+
+
+
+
+
 # ********************************************************* 
+
 
 import pygame,sys
 import random
-
+import time
 
 pygame.init()
 #screen
 FPS = 60
+FPS_CLOCK = pygame.time.Clock()
 screen = pygame.display.set_mode((1000,600))
 
 #background
@@ -33,25 +45,31 @@ background = pygame.image.load("assets/background3.jpg")
 background = pygame.transform.scale(background, (1000,600))
 pygame.display.set_caption("Burn the Witch!")
 
+
 #import images 
-status_png = [0,1,2,3,4,5]
+status_png = [0,1,2,3,4,5,6]
 status_png[0] = pygame.image.load("assets/firekeeper1.png")
 status_png[1] = pygame.image.load("assets/firekeeper2.png")
 status_png[2] = pygame.image.load("assets/firekeeper3.png")
 status_png[3] = pygame.image.load("assets/firekeeper4.png")
-status_png[4] = pygame.image.load("assets/firekeeper5.png")  #make sure there is the corresponding pngs in the assets folder! PROGRAM WILL NOT RUN IF NO IMAGES WITHTOUT THE SAME NAME.
-status_png[5] = pygame.image.load("assets/firekeeper6.png")  #these can be made more efficient but no brain power atm
-player = pygame.image.load("assets/knight.png")
+status_png[4] = pygame.image.load("assets/firekeeper5.png")  #make sure there is the corresponding pngs in the assets folder! PROGRAM WILL NOT RUN IF NO IMAGES WITHT THE SAME NAME.
+status_png[5] = pygame.image.load("assets/firekeeper6.png")
+status_png[6] = pygame.image.load("assets/firekeeper6.png")
 
+  #these can be made more efficient but no brain power atm
+player = pygame.image.load("assets/knight.png")
+#if index out of range = game CTD (Crash to desktop)
 
 #game vars
 correct_guess =0
 wrong_guesses =[]
-firekeeper_status = 0
-attempts = 5
-
+guessed_alphabet = []
 #user input
 input_letter = ''
+
+#attempts
+firekeeper_status = 0
+attempts = 6
 
 #words lists
 word = ["applepie","car","pizza","popular", "estus", "bonfire", "souls", "ember", "undead", 
@@ -89,6 +107,15 @@ def intro():
 
           pygame.display.update()
 
+def try_Again():
+     #button for repeat loop
+     #ask if player wan play again
+     #if yes, repeat, reset all variables,reset to option screen
+     #if no quit pygame
+     #bug where attempts go into negatives
+     #make sure user cannot make any more guess attempts
+
+     print("this is a dummy string")
 def user_login():
      running = True
      while running:
@@ -139,14 +166,14 @@ def game():
           def display_lose():
             win_surface= pygame.Surface((1000,80))
             screen.blit(win_surface, (0,100))
-            lose_text = font1.render("YOU LOST", True, "red")
+            lose_text = font1.render("YOU LOSE!", True, "red")
             screen.blit(lose_text, (335,105))
 
           def display_win():
             lose_surface= pygame.Surface((1000,80))
             screen.blit(lose_surface, (0,100))
-            lose_text = font1.render("YOU WIN", True, "yellow")
-            screen.blit(lose_text, (330,105))
+            lose_text = font1.render("TRIBULATION PASSED", True, "yellow")
+            screen.blit(lose_text, (180,105))
 
           display_guess_word()
           display_attempts()
@@ -160,11 +187,16 @@ def game():
                             pygame.quit()
                             running = False
                             sys.exit()
+                        
+                        #detect user input
                         if event.type == pygame.KEYDOWN:
                              if event.key == pygame.K_BACKSPACE:
                                   input_letter = input_letter [:-1]
+                                  
+                             
                              else:
                                   input_letter = event.unicode.lower()
+                                  
                                   # Check if the letter is in the guessed word
                                   if input_letter in guessed_word:
                                       for i in range(len(guessed_word)):
@@ -174,15 +206,25 @@ def game():
                                   else:
                                     attempts -= 1
                                     firekeeper_status += 1
-          if attempts <= 0:
+          #wincon check                          
+          if attempts <=0:
                 display_lose()
-          elif correct_guess == len(guessed_word):
+                firekeeper_status = 0
+                #make sure no funny business with attempts counter
+                if attempts < 0 :
+                    attempts +=  +1 
+                #Win = True to detect loss con instead of just display_lose, same for win con
+                #attempt keyboard lock when in win/loss screen
+                #call the try again? function
+                
+          if correct_guess == len(guessed_word):
                 display_win()
+                #call try again function
           
           
           
           pygame.display.update()
-            
+
 def main_menu():
 
     running = True
@@ -221,3 +263,4 @@ def main_menu():
 
 
 main_menu()
+pygame.quit()
