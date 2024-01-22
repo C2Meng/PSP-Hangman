@@ -26,19 +26,23 @@ def generate_word():
     word_list = ["meow", "woof", "moo"]
     return random.choice(word_list)
 
-
-# repetition
-current_turn = 0
-turns = 5
+def play_game(turns):
+    global current_turn
+    current_turn = 0
 
 # initializing
 win_msg = ""
 lose_msg =""
+user_input = ""
+
+# Set the number of turns
+turns = 5
+play_game(turns)
 
 while current_turn < turns:
       current_turn += 1
-      user_input = ""
       current_word = generate_word()
+      i = 0
 
 # loop for game
 while True:
@@ -49,11 +53,13 @@ while True:
           sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                if user_input == current_word:
+                if user_input == current_word and i < 5:
+                    # generate new word after condition is met
+                    current_word = generate_word()
                     win_msg = "Congratulations!"
                 else:
                     lose_msg = "Uh Oh! No hint for you"
-                    user_input = ""
+                user_input = ""
             elif event.key == pygame.K_BACKSPACE:
                   user_input = user_input[:-1]
             else:
