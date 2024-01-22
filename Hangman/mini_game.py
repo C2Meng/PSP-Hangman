@@ -56,6 +56,7 @@ while True:
                 if user_input == current_word and i < 5:
                     # generate new word after condition is met
                     current_word = generate_word()
+                    i += 1
                     win_msg = "Congratulations!"
                 else:
                     lose_msg = "Uh Oh! No hint for you"
