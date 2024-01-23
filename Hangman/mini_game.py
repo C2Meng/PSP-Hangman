@@ -26,26 +26,28 @@ def generate_word():
     word_list = ["meow", "woof", "moo"]
     return random.choice(word_list)
 
-def play_game(turns):
-    global current_turn
-    current_turn = 0
-
 # initializing
 win_msg = ""
 lose_msg =""
 user_input = ""
+current_turn = 0
+start_time = 0
 
-# Set the number of turns
-turns = 5
-current_turns = 0
+def playing_game(turns):
+    global current_turn, start_time, win_msg, lose_msg
+    current_turn = 0
+    start_time = pygame.time.get_ticks()
 
-while current_turn < turns:
+while current_turn < 5:
       current_turn += 1
       current_word = generate_word()
-    
+
+# initialize win_msg and lose_msg as empty strings
+win_msg = ""
+lose_msg = ""
+
 # loop for game
 while True:
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
           pygame.quit()
@@ -54,13 +56,16 @@ while True:
             if event.key == pygame.K_RETURN:
 
                 #sep
-                if user_input == current_word:
+                if current_turn <= 5:
+                    elapsed_time = (pygame.time.get_ticks() - start_time) / 1000
                     current_word = generate_word()
-                    if current_turn < turns:
-                        current_turn += 1
+                    if user_input == current_word and elapsed_time <= 15 and current_turn = 5:
+                        win_msg = "Yay! You won"
+                        user_input = ""
                     else:
-                    win_msg = "Congratulations!"
-                 user_input = ""
+                        lose_msg = "Uh oh! No hint for you" # still working on this part, message cannot appear
+                        user_input = ""
+                        start_time = pygame.time.get_ticks() # Reset timer
                 else:
                     lose_msg = "Uh Oh! No hint for you"
                 user_input = ""
@@ -102,6 +107,8 @@ while True:
     clock.tick(30)
 
     # End of the game
-    if pygame.time.get_ticks() > 10000:
+    if pygame.time.get_ticks() > 100000000:
        pygame.quit()
        sys.exit()
+
+playing_game(5) 
