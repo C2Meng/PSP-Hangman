@@ -53,11 +53,13 @@ while True:
           sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                if user_input == current_word and i < 5:
-                    # generate new word after condition is met
+                if user_input == current_word:
                     current_word = generate_word()
-                    i += 1
+                    if current_turn < turns:
+                        current_turn += 1
+                    else:
                     win_msg = "Congratulations!"
+                 user_input = ""
                 else:
                     lose_msg = "Uh Oh! No hint for you"
                 user_input = ""
@@ -68,9 +70,9 @@ while True:
                 
 
     # for output message
-    if "win_msg" in locals():
+    if "win_msg":
         output_surface = font2.render(win_msg, True, white)
-    elif "lose_msg" in locals():
+    elif "lose_msg":
         output_surface = font2.render(lose_msg, True, white)
     else:
         output_surface = font2.render("", True, white)
