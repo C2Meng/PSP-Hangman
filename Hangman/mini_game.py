@@ -37,13 +37,12 @@ user_input = ""
 
 # Set the number of turns
 turns = 5
-play_game(turns)
+current_turns = 0
 
 while current_turn < turns:
       current_turn += 1
       current_word = generate_word()
-      i = 0
-
+    
 # loop for game
 while True:
 
