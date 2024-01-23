@@ -52,6 +52,8 @@ while True:
           sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
+
+                #sep
                 if user_input == current_word:
                     current_word = generate_word()
                     if current_turn < turns:
@@ -62,6 +64,7 @@ while True:
                 else:
                     lose_msg = "Uh Oh! No hint for you"
                 user_input = ""
+
             elif event.key == pygame.K_BACKSPACE:
                   user_input = user_input[:-1]
             else:
