@@ -4,9 +4,9 @@
 # Class: TL10-01
 # Year: 2023/24 Trimester 1 
 # Names: WINNIE LEE WEN NI | YAP YANG YI | SOFIA BINTI HANISMAN| CHAN CHUAN MENG
-# IDs: MEMBER_ID_1 | MEMBER_ID_2 | MEMBER_ID_3 | 1221107931
-# Emails: @student.mmu.edu.my | @student.mmu.edu.my | @student.mmu.edu.my | 1221107931@student.mmu.edu.my
-# Phones: +6 | +6 | +6 | +60125293192
+# IDs: 1221109102 | 1221107539 | 1221107970 | 1221107931
+# Emails: 1221109102@student.mmu.edu.my | 1221107539@student.mmu.edu.my | 1221107970@student.mmu.edu.my | 1221107931@student.mmu.edu.my
+# Phones: +60 18-258 1460 | +60 14-716 7690 | +60 16-903 5825 | +60 12-529 3192
 # ********************************************************* 
 
 # ********************************************************* 
@@ -16,7 +16,7 @@
 # 3. leaderboard
 # 4. minigame
 # 5. intro screen
-# 6. game repeat loop (I.E: asking user want play again anot (Y/N))
+# 6. game repeat loop (I.E: asking user want play again anot (Y/N)) done
 # ********************************************************* 
 
 import pygame,sys
@@ -50,16 +50,24 @@ correct_guess =0
 wrong_guesses =[]##-------
 firekeeper_status = 0
 attempts = 5
-
+counter = 0
 #user input
 input_letter = ''
 
 #words lists
 word = ["applepie","car","pizza","popular", "estus", "bonfire", "souls", "ember", "undead", 
-        "lordvessel", "hollow", "kindled", "sunbro", "covenant"]
-guessed_word = random.choice(word)
-hidden_word = ["_"] * len(guessed_word)
+            "lordvessel", "hollow", "kindled", "sunbro", "covenant"]
 
+#word generator
+def word_gen():
+    global hidden_word 
+    global guessed_word
+   
+    guessed_word = random.choice(word)
+    hidden_word = ["_"] * len(guessed_word)    
+word_gen()
+
+     
 #fonts
 font1 = pygame.font.SysFont('times new roman',60)
 font2 = pygame.font.SysFont('times new roman',30)
@@ -68,7 +76,51 @@ menu_text = pygame.font.SysFont('times new roman', 80)
 small_text = pygame.font.SysFont('times new roman', 20)
 
 #def leaderboard():
+def repeat():
+     #this part resets the game values 
+     global attempts
+     global firekeeper_status
+     global correct_guess
+     global wrong_guesses
+     global win_con
+     global hidden_word
      
+     running = True
+     while running:
+          screen.fill("dark green")
+
+          #resetting game vars
+          win_con = False
+          word_gen()
+          wrong_guesses.clear()
+          attempts = 5
+          firekeeper_status = 0
+          
+          
+          
+        
+          
+          for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        running = False
+                        sys.exit()
+                    
+                    if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_RETURN:
+
+                                    win_con = False
+                                    game()
+
+                                elif event.key == pygame.K_ESCAPE:
+                                     pygame.quit()
+                                     running = False
+                                     sys.exit()
+                                     
+                    
+
+          pygame.display.update()
+          
 #def quit():
 def intro():
      
@@ -104,8 +156,14 @@ def user_login():
 def game():
      global attempts
      global firekeeper_status
+     global guessed_word
+     global hidden_word
      global correct_guess
+     global wrong_guesses
      global win_con
+     global counter
+     
+
      running = True 
      while running:
           screen.blit(background, (0,0))
@@ -149,7 +207,9 @@ def game():
             screen.blit(lose_surface, (0,100))
             lose_text = font1.render("YOU WIN", True, "yellow")
             screen.blit(lose_text, (330,105))
-
+          
+          
+          
           display_guess_word()
           display_attempts()
           display_wrong_guesses() ##-------S
@@ -184,15 +244,22 @@ def game():
                                
           if attempts <= 0:
                 display_lose()
-                firekeeper_status = 0 
-                if attempts < 0 :
-                    attempts +=  +1 
+                #firekeeper_status = 0 
+                #if attempts < 0 :
+                    #attempts +=  +1       
                 win_con = True
+                running = False
+                counter += 1
+                repeat()
+
 
           elif "_" not in hidden_word: ##-------S
                 display_win()
+                
                 win_con = True
-          
+                running = False
+                counter += 1
+                repeat()
           
           
           pygame.display.update()
@@ -235,7 +302,6 @@ def main_menu():
 
 
 main_menu()
-pygame.quit()
     
 
         
