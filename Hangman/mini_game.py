@@ -27,8 +27,6 @@ def generate_word():
     return random.choice(word_list)
 
 # initializing
-win_msg = ""
-lose_msg =""
 user_input = ""
 current_turn = 0
 max_turns = 5
@@ -36,13 +34,12 @@ max_turns = 5
 def playing_game():
     global current_turn, win_msg, lose_msg
 
+win_msg = ""
+lose_msg = ""
+
 while current_turn < 5:
       current_turn += 1
       current_word = generate_word()
-
-# initialize win_msg and lose_msg as empty strings 
-win_msg = ""
-lose_msg = ""
 
 # loop for game
 while True:
@@ -57,13 +54,13 @@ while True:
                 if current_turn <= 5:
                     current_word = generate_word()
                     if user_input == current_word and current_turn == max_turns:
-                        win_msg = "Yay! You won"
+                        win_msg = f"Yay! You won in {current_turn} turns"
                         user_input = ""
                     else:
-                        lose_msg = "Uh oh! No hint for you" # still working on this part, message cannot appear
+                        lose_msg = f"Uh oh! You lost in {current_turn} turns" # still working on this part, message cannot appear
                         user_input = ""
                 else:
-                    lose_msg = "Uh Oh! No hint for you"
+                    lose_msg = f"Uh oh! You lost in {current_turn} turns"
                 user_input = ""
             elif event.key == pygame.K_BACKSPACE:
                   user_input = user_input[:-1]
@@ -103,4 +100,4 @@ while True:
        pygame.quit()
        sys.exit()
 
-playing_game(5) 
+playing_game() 
