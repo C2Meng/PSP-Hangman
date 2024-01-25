@@ -19,7 +19,7 @@ font2 = pygame.font.Font("Gellisto.ttf", 20)
 # set up display
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Welcome to the typing challenge")
-clock = pygame.time.Clock()
+
 
 # to generate the random words ( will change the words later )
 def generate_word():
@@ -31,18 +31,16 @@ win_msg = ""
 lose_msg =""
 user_input = ""
 current_turn = 0
-start_time = 0
+max_turns = 5
 
-def playing_game(turns):
-    global current_turn, start_time, win_msg, lose_msg
-    current_turn = 0
-    start_time = pygame.time.get_ticks()
+def playing_game():
+    global current_turn, win_msg, lose_msg
 
 while current_turn < 5:
       current_turn += 1
       current_word = generate_word()
 
-# initialize win_msg and lose_msg as empty strings
+# initialize win_msg and lose_msg as empty strings 
 win_msg = ""
 lose_msg = ""
 
@@ -57,19 +55,16 @@ while True:
 
                 #sep
                 if current_turn <= 5:
-                    elapsed_time = (pygame.time.get_ticks() - start_time) / 1000
                     current_word = generate_word()
-                    if user_input == current_word and elapsed_time <= 15 and current_turn = 5:
+                    if user_input == current_word and current_turn == max_turns:
                         win_msg = "Yay! You won"
                         user_input = ""
                     else:
                         lose_msg = "Uh oh! No hint for you" # still working on this part, message cannot appear
                         user_input = ""
-                        start_time = pygame.time.get_ticks() # Reset timer
                 else:
                     lose_msg = "Uh Oh! No hint for you"
                 user_input = ""
-
             elif event.key == pygame.K_BACKSPACE:
                   user_input = user_input[:-1]
             else:
@@ -83,7 +78,6 @@ while True:
         output_surface = font2.render(lose_msg, True, white)
     else:
         output_surface = font2.render("", True, white)
-
 
     screen.fill(black)
 
@@ -102,12 +96,10 @@ while True:
     output_rect = output_surface.get_rect(center=(width // 2, height // 4))
     screen.blit(output_surface, (x_position,y_position))
 
-
-    pygame.display.flip()
-    clock.tick(30)
+    pygame.display.update()
 
     # End of the game
-    if pygame.time.get_ticks() > 100000000:
+    if current_turn > max_turns:
        pygame.quit()
        sys.exit()
 
