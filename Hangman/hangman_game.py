@@ -11,7 +11,7 @@
 
 # ********************************************************* 
 # TO DO LIST
-# 1. option button for difficulty 
+# 1. option page for categories (done)
 # 2. user login screen
 # 3. leaderboard
 # 4. minigame
@@ -21,7 +21,7 @@
 
 import pygame,sys
 import random
-
+from list_of_words import choose_category, name_category
 
 pygame.init()
 #screen
@@ -46,17 +46,13 @@ player = pygame.image.load("assets/knight.png")
 
 #game vars
 correct_guess =0
-wrong_guesses =[]##-------
+wrong_guesses =[]
 firekeeper_status = 0
 attempts = 5
 
 #user input
 input_letter = ''
-
-#words lists
-word = ["applepie","car"]
-guessed_word = random.choice(word)
-hidden_word = ["_"] * len(guessed_word)
+input_choice = ''
 
 #fonts
 font1 = pygame.font.SysFont('times new roman',60)
@@ -99,31 +95,73 @@ def user_login():
 
           pygame.display.update()
 
+def category():
+    global result
+    running = True
+    while running:
+          screen.fill("black")
+
+          choose_category_text = font2.render("Press a number to choose a category: ", True, "white")
+          fruits = font2.render("0 - Animals", True, "white")
+          animals = font2.render("1 - Fruits", True, "white")
+          colours = font2.render("2 - Colours", True, "white")
+          numbers = font2.render("3 - Numbers", True, "white")
+
+          screen.blit(choose_category_text, (250, 125))
+          screen.blit(fruits, (400, 200))
+          screen.blit(animals, (400, 250))
+          screen.blit(colours, (400, 300))
+          screen.blit(numbers, (400, 350))
+          
+
+
+          for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        running = False
+                        sys.exit()
+                    
+                    if event.type == pygame.KEYDOWN:
+                        input_choice = event.unicode.lower()
+
+                        if input_choice.isalpha():
+                              main_menu()
+                        elif  input_choice.isdigit():
+                              result = int(input_choice)
+                              if result < 4:
+                                   game()
+                              else:
+                                   main_menu()
+                        else:
+                             main_menu()
+                        
+                        
+                             
+                         
+
+
+          pygame.display.update()
+         
 def game():
      global attempts
      global firekeeper_status
      global correct_guess
+     global correct_guess
+     #generate random word from category chosen
+     word = choose_category[result]
+     guessed_word = random.choice(word)
+     category_title = name_category[result]
+     hidden_word = ["_"] * len(guessed_word)
      
      running = True 
      while running:
           screen.blit(background, (0,0))
           screen.blit(status_png[firekeeper_status],(630,150))
           screen.blit(player, (10,265))
-          #word randomiser
-          #def randomiser():
-               #return random.choice(words)
-                
-          #word display
-          #randomiser()
-          
-
-          #text = game_text.render(word_display ,1, 'black')
-          #screen.blit(text, ( 400,200))
-          
 
           #displays
-          def display_wrong_guesses(): ##-------S
-               wrong_guesses_text = font2.render(" ".join(wrong_guesses), True, "white")
+          def display_wrong_guesses():
+               wrong_guesses_text = font2.render(f"wrong guesses: { ", ".join(wrong_guesses)}", True, "white")
                screen.blit(wrong_guesses_text, (150, 230))
                
           def display_guess_word():
@@ -131,10 +169,13 @@ def game():
               screen.blit(word_text, (150,150))
 
           def display_attempts():
-            attempts_surface = pygame.Surface((210,40))
+            attempts_surface = pygame.Surface((280,65))
             screen.blit(attempts_surface, (15,15))
+            alphabet_only_text = small_text.render("Start guessing to save the witch", True, "grey")
+            screen.blit(alphabet_only_text, (20, 55))
             attempts_text = font2.render(f"Attempts left:  {attempts}", True, "white")
             screen.blit(attempts_text, (20,20))
+
 
           def display_lose():
             win_surface= pygame.Surface((1000,80))
@@ -148,9 +189,15 @@ def game():
             lose_text = font1.render("YOU WIN", True, "yellow")
             screen.blit(lose_text, (330,105))
 
+          def display_category():
+            category_text = font1.render(str(category_title), True, "grey")
+            screen.blit(category_text, (415,80))
+     
+
           display_guess_word()
           display_attempts()
-          display_wrong_guesses() ##-------S
+          display_wrong_guesses() 
+          display_category()
           
                
             
@@ -168,19 +215,19 @@ def game():
                                   input_letter = event.unicode.lower()
 
                                   # Check if the letter is in the guessed word
-                                  if input_letter in guessed_word:
-                                    for i in range(len(guessed_word)):
-                                        if guessed_word[i] == input_letter:
-                                            hidden_word[i] = input_letter
-                                                   
-                                  elif input_letter not in guessed_word and input_letter not in wrong_guesses: ##-------S
-                                       wrong_guesses.append(input_letter)
-                                       attempts -= 1
-                                       firekeeper_status += 1
+                                  if input_letter.isalpha():
+                                   if input_letter in guessed_word:
+                                        for i in range(len(guessed_word)):
+                                             if guessed_word[i] == input_letter:
+                                                  hidden_word[i] = input_letter        
+                                   elif input_letter not in guessed_word and input_letter not in wrong_guesses:
+                                        wrong_guesses.append(input_letter)
+                                        attempts -= 1
+                                        firekeeper_status += 1
                                     
           if attempts <= 0:
                 display_lose()
-          elif "_" not in hidden_word: ##-------S
+          elif "_" not in hidden_word: 
                 display_win()
           
           
