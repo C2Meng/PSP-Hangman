@@ -1,0 +1,8 @@
+name_category = ["animal", "fruit", "colour", "number"]
+
+choose_category = [0,1,2,3]
+choose_category[0] = ["hippopotamus", "rhinoceros", "penguin", "elephant", "giraffe", "flamingo"] 
+choose_category[1] = ["pineapple", "raspberry", "watermelon", "blackberry", "kiwi", "guava"] 
+choose_category[2] = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"]
+choose_category[3] = ["twelve", "seventeen", "eleven", "nine", "ten", "fifty"] 
+name_category = ["animal", "fruit", "colour", "number"]
