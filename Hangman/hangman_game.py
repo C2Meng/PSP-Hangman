@@ -266,7 +266,7 @@ def main_menu():
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
-                    game()
+                    category()
 
         pygame.display.update()
 
