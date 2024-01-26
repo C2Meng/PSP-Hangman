@@ -23,23 +23,22 @@ pygame.display.set_caption("Welcome to the typing challenge")
 
 # to generate the random words ( will change the words later )
 def generate_word():
-    word_list = ["meow", "woof", "moo"]
+    word_list = ["meow", "woof", "moo", "bagel", "chocolate", "vanilla"]
     return random.choice(word_list)
 
 # initializing
 user_input = ""
-current_turn = 0
+current_turn = 1
 max_turns = 5
+win_msg = ""
+lose_msg = ""
+extra_msg = ""
 
 def playing_game():
     global current_turn, win_msg, lose_msg
 
-win_msg = ""
-lose_msg = ""
-
-while current_turn < 5:
-      current_turn += 1
-      current_word = generate_word()
+if current_turn < max_turns:
+    current_word = generate_word()
 
 # loop for game
 while True:
@@ -51,17 +50,17 @@ while True:
             if event.key == pygame.K_RETURN:
 
                 #sep
-                if current_turn <= 5:
-                    current_word = generate_word()
-                    if user_input == current_word and current_turn == max_turns:
-                        win_msg = f"Yay! You won in {current_turn} turns"
+                    if user_input == current_word:
+                        current_turn += 1
+                        current_word = generate_word()
+                        user_input = ""
+                    elif current_turn == max_turns:
+                        win_msg = f"Yay! You won in {current_turn} turns!"
                         user_input = ""
                     else:
-                        lose_msg = f"Uh oh! You lost in {current_turn} turns" # still working on this part, message cannot appear
+                        lose_msg = f"Uh oh! You lost in {current_turn} turns" 
                         user_input = ""
-                else:
-                    lose_msg = f"Uh oh! You lost in {current_turn} turns"
-                user_input = ""
+
             elif event.key == pygame.K_BACKSPACE:
                   user_input = user_input[:-1]
             else:
@@ -69,9 +68,11 @@ while True:
                 
 
     # for output message
-    if "win_msg":
+    if win_msg:
         output_surface = font2.render(win_msg, True, white)
-    elif "lose_msg":
+    elif lose_msg:
+        output_surface = font2.render(lose_msg, True, white)
+    elif extra_msg:
         output_surface = font2.render(lose_msg, True, white)
     else:
         output_surface = font2.render("", True, white)
