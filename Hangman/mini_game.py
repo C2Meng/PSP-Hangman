@@ -58,6 +58,14 @@ def mini_game():
      def game_screen():
          global current_turn, win_msg, lose_msg
 
+# initializing
+         user_input = ""
+         current_turn = 1
+         max_turns = 5
+         win_msg = ""
+         lose_msg = ""
+         extra_msg = ""
+         
          if current_turn < max_turns:
             current_word = generate_word()
 
