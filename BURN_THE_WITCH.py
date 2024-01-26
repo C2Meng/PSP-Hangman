@@ -231,9 +231,10 @@ def game():
           #screen.blit(text, ( 400,200))
           
 
-          #displays
-          def display_wrong_guesses():
-              wrong_guesses_text = font2.render(f"wrong guesses: { ',' .join(wrong_guesses)}", True, "white")
+           #displays
+          def display_wrong_guesses(): 
+               wrong_guesses_text = font2.render(f"wrong guesses: { ", ".join(wrong_guesses)}", True, "white")
+               screen.blit(wrong_guesses_text, (150, 230))
                
           def display_guess_word():
               word_text = font1.render(" ".join(hidden_word), True, "white")
@@ -244,6 +245,9 @@ def game():
             screen.blit(attempts_surface, (15,15))
             alphabet_only_text = small_text.render("Start guessing to save the witch", True, "grey")
             screen.blit(alphabet_only_text, (20, 55))
+            attempts_text = font2.render(f"Attempts left:  {attempts}", True, "white")
+            screen.blit(attempts_text, (20,20))
+
           def display_lose():
             win_surface= pygame.Surface((1000,80))
             screen.blit(win_surface, (0,100))
@@ -259,11 +263,12 @@ def game():
           def display_category():
             category_text = font1.render(str(category_title), True, "grey")
             screen.blit(category_text, (415,80))
+     
+     
 
-          
           display_guess_word()
           display_attempts()
-          display_wrong_guesses() ##-------S
+          display_wrong_guesses()
           display_category()
                
             
