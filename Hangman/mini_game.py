@@ -24,14 +24,6 @@ def mini_game():
          word_list = ["meow", "woof", "moo", "bagel", "chocolate", "vanilla"]
          return random.choice(word_list)
 
-# initializing
-     user_input = ""
-     current_turn = 1
-     max_turns = 5
-     win_msg = ""
-     lose_msg = ""
-     extra_msg = ""
-
 # screen 1
      def main_screen():
          
