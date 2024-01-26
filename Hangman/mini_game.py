@@ -24,7 +24,7 @@ def mini_game():
          word_list = ["meow", "woof", "moo", "bagel", "chocolate", "vanilla"]
          return random.choice(word_list)
 
-# screen 1
+# screen 1, will change the messages
      def main_screen():
          
          screen.fill(black)
