@@ -50,13 +50,21 @@ correct_guess =0
 wrong_guesses =[]##-------
 firekeeper_status = 0
 attempts = 5
-counter = 0
+win = False
+lose = False
 #user input
 input_letter = ''
 input_choice = ''
 
-#words lists
+#fonts
+font1 = pygame.font.SysFont('times new roman',60)
+font2 = pygame.font.SysFont('times new roman',30)
+game_text = pygame.font.SysFont('times new roman',40)
+menu_text = pygame.font.SysFont('times new roman', 80)
+small_text = pygame.font.SysFont('times new roman', 20)
+dialogue_text = pygame.font.SysFont('times new roman', 30)
 
+#words lists
 def category():
     global result
     running = True
@@ -91,6 +99,7 @@ def category():
                         elif  input_choice.isdigit():
                               result = int(input_choice)
                               if result < 4:
+                                   pygame.time.delay(500)
                                    game()
                               else:
                                    main_menu()
@@ -99,7 +108,6 @@ def category():
 
 
           pygame.display.update()
-
 
 #word generator
 def word_gen():
@@ -111,38 +119,45 @@ def word_gen():
     guessed_word = random.choice(word) #randomiser
     category_title = name_category[result] #title of chosen category
     hidden_word = ["_"] * len(guessed_word)  
+#reset the game
 
-
-     
-#fonts
-font1 = pygame.font.SysFont('times new roman',60)
-font2 = pygame.font.SysFont('times new roman',30)
-game_text = pygame.font.SysFont('times new roman',40)
-menu_text = pygame.font.SysFont('times new roman', 80)
-small_text = pygame.font.SysFont('times new roman', 20)
-
-#def leaderboard():
-def repeat():
-     #this part resets the game values 
-     global attempts
-     global firekeeper_status
+def reset():
+     global win_con
      global correct_guess
      global wrong_guesses
-     global win_con
-     global hidden_word
+     global attempts
+     global firekeeper_status
      
+     win_con = False
+     word_gen()
+     wrong_guesses.clear()
+     correct_guess = 0
+     attempts = 5
+     firekeeper_status = 0   
+
+#def leaderboard():
+def win_screen():
+     #this part resets the game values 
+   
+     global win
+     global lose
+
      running = True
      while running:
-          screen.fill("dark green")
+          screen.fill("black")
 
+          def display_win():
+            #win_surface= pygame.Surface((1000,80))
+            #screen.blit(win_surface, (0,100))
+            win_text = menu_text.render("YOU WIN", True, "yellow")
+            screen.blit(win_text, (300,200))
+            subtext = small_text.render("Press enter to continue", True , "white")
+            screen.blit(subtext, (375,300))
           #resetting game vars
-          win_con = False
-          word_gen()
-          wrong_guesses.clear()
-          attempts = 5
-          firekeeper_status = 0
-          
-          
+          reset()
+          win = False
+          lose = False
+          display_win()
           
         
           
@@ -154,9 +169,8 @@ def repeat():
                     
                     if event.type == pygame.KEYDOWN:
                                 if event.key == pygame.K_RETURN:
-
-                                    win_con = False
                                     category()
+                                    #Sofia, put a category2() function here, then we can proceed.
 
                                 elif event.key == pygame.K_ESCAPE:
                                      pygame.quit()
@@ -166,7 +180,49 @@ def repeat():
                     
 
           pygame.display.update()
+
+def lose_screen():
+     global win
+     global lose
+     
+     
+     running = True
+     while running:
+          screen.fill("black")
+
+          #text displays
+          def display_lose():
+            #lose_surface= pygame.Surface((1000,80))
+            #screen.blit(lose_surface, (0,100))
+            lose_text = menu_text.render("YOU LOST", True, "red")
+            screen.blit(lose_text, (300,200))
+
+            subtext = small_text.render("With this character's death, the thread of prophecy has been severed.", True , "red")
+            subtext2 = small_text.render("Restore the game to restore the weave of fate, or persist in the doomed world you have created.", True, "red")
+            screen.blit(subtext,(220,300))
+            screen.blit(subtext2,(115,320))
+            
+
+
+          reset()
+          lose = False
+          win = False
+          display_lose()  
           
+          for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        running = False
+                        sys.exit()
+
+                    if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+                        pygame.time.delay(200)
+                        main_menu()
+
+            
+          
+          pygame.display.update()
+     
 #def quit():
 def intro():
      
@@ -201,8 +257,8 @@ def user_login():
 
           pygame.display.update()
 
-
 def game():
+     #bandaid solution
      global attempts
      global firekeeper_status
      global guessed_word
@@ -210,7 +266,8 @@ def game():
      global correct_guess
      global wrong_guesses
      global win_con
-     global counter
+     global win
+     global lose
 
      
      word_gen()
@@ -231,11 +288,11 @@ def game():
           #screen.blit(text, ( 400,200))
           
 
-           #displays
-          def display_wrong_guesses(): 
-               wrong_guesses_text = font2.render(f"wrong guesses: { ", ".join(wrong_guesses)}", True, "white")
-               screen.blit(wrong_guesses_text, (150, 230))
-               
+          #displays
+          def display_wrong_guesses():
+              wrong_guesses_text = font2.render(f"wrong guesses: { ',' .join(wrong_guesses)}", True, "white")
+              screen.blit(wrong_guesses_text, (150, 230))
+
           def display_guess_word():
               word_text = font1.render(" ".join(hidden_word), True, "white")
               screen.blit(word_text, (150,150))
@@ -248,27 +305,33 @@ def game():
             attempts_text = font2.render(f"Attempts left:  {attempts}", True, "white")
             screen.blit(attempts_text, (20,20))
 
+
           def display_lose():
-            win_surface= pygame.Surface((1000,80))
-            screen.blit(win_surface, (0,100))
-            lose_text = font1.render("YOU LOST", True, "red")
-            screen.blit(lose_text, (335,105))
+            win_surface= pygame.Surface((1000,300))
+            screen.blit(win_surface, (0,400))
+            pygame.time.delay(500)
+            char_text = font2.render("Firekeeper", True, "grey")
+            screen.blit(char_text, (50,420))
+            win_text = dialogue_text.render('"AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"',True, "red")
+            screen.blit(win_text, (50,450))
 
           def display_win():
-            lose_surface= pygame.Surface((1000,80))
-            screen.blit(lose_surface, (0,100))
-            lose_text = font1.render("YOU WIN", True, "yellow")
-            screen.blit(lose_text, (330,105))
+            win_surface= pygame.Surface((1000,300))
+            screen.blit(win_surface, (0,400))
+            pygame.time.delay(500)
+            char_text = font2.render("Firekeeper", True, "grey")
+            screen.blit(char_text, (50,420))
+            win_text = dialogue_text.render('"Thank you for saving me, you are now my best friend :)."', True, "green")
+            screen.blit(win_text, (50,450))
           
           def display_category():
             category_text = font1.render(str(category_title), True, "grey")
             screen.blit(category_text, (415,80))
-     
-     
 
+          
           display_guess_word()
           display_attempts()
-          display_wrong_guesses()
+          display_wrong_guesses() ##-------S
           display_category()
                
             
@@ -293,6 +356,7 @@ def game():
                                         for i in range(len(guessed_word)):
                                              if guessed_word[i] == input_letter:
                                                   hidden_word[i] = input_letter        
+                                                  
                                    elif input_letter not in guessed_word and input_letter not in wrong_guesses:
                                         wrong_guesses.append(input_letter)
                                         attempts -= 1
@@ -304,29 +368,30 @@ def game():
 
 
 
-
+          
           if attempts <= 0:
                 display_lose()
-                #firekeeper_status = 0 
-                #if attempts < 0 :
-                    #attempts +=  +1       
                 win_con = True
-                running = False
-                counter += 1
-                repeat()
-
+                lose = True
 
           elif "_" not in hidden_word: 
                 display_win()
-                
                 win_con = True
-                running = False
-                counter += 1
-                repeat()
-          
+                win = True
+
           
           pygame.display.update()
-            
+          #if to prevent the following function from immedietly triggering
+          if win == True:
+             pygame.time.wait(2000)
+             win_screen()
+             
+
+          elif lose == True:
+               pygame.time.wait(2000)
+               lose_screen()   
+               
+
 def main_menu():
 
     running = True
@@ -349,9 +414,6 @@ def main_menu():
              #text_2 = small_text.render(sub_display, 1, "white")
 
     
-
-
-
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -359,15 +421,19 @@ def main_menu():
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+                    pygame.time.delay(200)
                     category()
 
         pygame.display.update()
 
 
+
 main_menu()
+pygame.quit()
     
 
         
+    
     
     
     
