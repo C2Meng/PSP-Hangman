@@ -1,8 +1,20 @@
-name_category = ["animal", "fruit", "colour", "number"]
+categories_dict = {
+    "easy_categories": ["rainbow", "numbers","animals", "fruits"],
+    "intermediate_categories": ["asean", "occupations", "sports", "food"],
+    "difficult_categories": ["python", "html", "css"],
+    "expert_categories": ["data science", "cybersecurity", "software engineering", "game development"]
+}
 
-choose_category = [0,1,2,3]
-choose_category[0] = ["hippopotamus", "rhinoceros", "penguin", "elephant", "giraffe", "flamingo"] 
-choose_category[1] = ["pineapple", "raspberry", "watermelon", "blackberry", "kiwi", "guava"] 
-choose_category[2] = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"]
-choose_category[3] = ["twelve", "seventeen", "eleven", "nine", "ten", "fifty"] 
-name_category = ["animal", "fruit", "colour", "number"]
+# Dictionary of lists for each category
+categories_lists = {
+    "rainbow": ["red", "orange", "yellow", "green", "blue", "indigo", "violet"],#--------------------- Easy
+    "numbers": ["twelve", "three", "eleven", "nine", "ten", "fifteen"],
+    "safari": ["zebra", "lion", "cheetah", "elephant", "giraffe", "hippo"], 
+    "fruits": ["apple", "banana", "orange", "mango", "kiwi", "guava"],
+    "asean": ["malaysia", "singapore", "philippines", "brunei", "thailand", "vietnam"], #--------------------- Intermediate
+    "occupations": ["dentist", "nurse", "pharmacist", "physician", "engineer", "therapist"],
+    "sports": ["badminton", "volleyball", "archery", "snooker", "icehockey", "taekwondo"],
+    "food": ["nasilemak", "dimsum", "icecream", "hotdog", "frenchfries", "roticanai"], 
+    "python": ["problemsolving", "programming", "strings", "lists", "tuples", "dictionaries"], #--------------------- Difficult
+    "html": ["webdevelopment", "worldwideweb", "headings", "paragraph", "hyperlink"],
+    "css": ["layout", "appearance", "styles", "fonts", "colors"],
