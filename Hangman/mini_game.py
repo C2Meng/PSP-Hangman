@@ -13,8 +13,8 @@ def mini_game():
      font_size = 35
 
 # font
-     font1 = pygame.font.Font("Good Old DOS Smooth.ttf", 36)
-     font2 = pygame.font.Font("Gellisto.ttf", 20)
+     font1 = pygame.font.Font("assets/Good Old DOS Smooth.ttf", 36)
+     font2 = pygame.font.Font("assets/Gellisto.ttf", 20)
                 
      screen = pygame.display.set_mode((width, height))
      pygame.display.set_caption("Welcome to the typing challenge")
