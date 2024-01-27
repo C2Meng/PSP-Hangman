@@ -121,8 +121,7 @@ def mini_game():
                          else:
                              lose_msg ="That's incorrect! You lose BIG time"
                              user_input = ""
-                             break
-
+                            
                      elif event.key == pygame.K_BACKSPACE:
                          user_input = user_input[:-1]
                      else:
@@ -131,10 +130,19 @@ def mini_game():
     # for output message
              if win_msg:
                  output_surface = font2.render(win_msg, True, white)
+                 screen.blit(output_surface, (90, 300))
+                 pygame.display.update()
+                 pygame.time.delay(2000)  # Display the message for 2 seconds
+                 break  # Exit the game loop if the player wins
              elif lose_msg:
-                 output_surface = font2.render(lose_msg, True, white)
+                  output_surface = font2.render(lose_msg, True, white)
+                  screen.blit(output_surface, (90, 300))
+                  pygame.display.update()
+                  pygame.time.delay(2000)  # Display the message for 2 seconds
+                  break  # Exit the game loop if the player loses
              else: 
                  output_surface = font2.render("", True, white)
+
 
              screen.fill(black)
 
@@ -159,8 +167,10 @@ def mini_game():
                  pygame.quit()
                  sys.exit()
 
+
      main_screen()
      rule_screen()
      game_screen()
+
 
 mini_game()
