@@ -21,7 +21,7 @@ def mini_game():
 
 # to generate the random words ( will change the words later )
      def generate_word():
-         word_list = ["meow", "woof", "moo", "bagel", "chocolate", "vanilla"]
+         word_list = ["sesquipedalianism", "trichotillomania", "incomprehensibility", "interdisciplinary", "surreptitious", "hypothetically"]
          return random.choice(word_list)
 
 # screen 1
@@ -58,23 +58,20 @@ def mini_game():
  
          rule_msg1 = font2.render("Rules:", True, white)
          rule_msg2 = font2.render("1. You have 5 ATTEMPTS", True, white) 
-         rule_msg3 = font2.render("2. Retype the word on the screen as fast as you can", True, white)
-         rule_msg4 = font2.render("3. To win, retype all the words accurately", True, white)
-         rule_msg5 = font2.render("4. You will lose immediately if you input wrongly", True, white)
-         rule_msg6 = font2.render("Press Enter to continue", True, white)
+         rule_msg3 = font2.render("2. To win, retype all the words accurately", True, white)
+         rule_msg4 = font2.render("3. You will lose immediately if you input wrongly", True, white)
+         rule_msg5 = font2.render("Press Enter to continue", True, white)
 
          x_position1, y_position1 = 230,100
          x_position2, y_position2 = 20, 160
          x_position3, y_position3 = 17, 190
          x_position4, y_position4 = 15, 220
-         x_position5, y_position5 = 15, 250
-         x_position6, y_position6 = 150, 350
+         x_position5, y_position5 = 15, 220
          screen.blit(rule_msg1, (x_position1, y_position1))
          screen.blit(rule_msg2, (x_position2, y_position2))
-         screen.blit(rule_msg3, (x_position3, y_position3))
-         screen.blit(rule_msg4, (x_position4, y_position4))  
-         screen.blit(rule_msg5, (x_position5, y_position5)) 
-         screen.blit(rule_msg6, (x_position6, y_position6)) 
+         screen.blit(rule_msg3, (x_position3, y_position3))  
+         screen.blit(rule_msg4, (x_position4, y_position4)) 
+         screen.blit(rule_msg4, (x_position5, y_position5)) 
 
          pygame.display.update()
 
@@ -93,7 +90,7 @@ def mini_game():
 
 # initializing
          user_input = ""
-         current_turn = 1
+         current_turn = 0
          max_turns = 5
          win_msg = ""
          lose_msg = ""
@@ -111,7 +108,6 @@ def mini_game():
                  elif event.type == pygame.KEYDOWN:
                      if event.key == pygame.K_RETURN:
 
-                #the part where i lose my mind
                          if user_input == current_word:
                              current_turn += 1
                              current_word = generate_word()
@@ -123,20 +119,19 @@ def mini_game():
                                  current_word = generate_word()
                                  user_input = ""
                          else:
-                             lose_msg = "Oh no! You lost your chance..." 
+                             lose_msg ="That's incorrect! You lose BIG time"
                              user_input = ""
+                             break
 
                      elif event.key == pygame.K_BACKSPACE:
                          user_input = user_input[:-1]
                      else:
-                         user_input += event.unicode
+                         user_input += event.unicode.lower()
                 
     # for output message
              if win_msg:
                  output_surface = font2.render(win_msg, True, white)
              elif lose_msg:
-                 output_surface = font2.render(lose_msg, True, white)
-             elif extra_msg:
                  output_surface = font2.render(lose_msg, True, white)
              else: 
                  output_surface = font2.render("", True, white)
