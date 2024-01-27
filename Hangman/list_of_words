@@ -1,5 +1,5 @@
 categories_dict = {
-    "easy_categories": ["rainbow", "numbers","animals", "fruits"],
+    "easy_categories": ["rainbow", "numbers","safari", "fruits"],
     "intermediate_categories": ["asean", "occupations", "sports", "food"],
     "difficult_categories": ["python", "html", "css"],
     "expert_categories": ["data science", "cybersecurity", "software engineering", "game development"]
@@ -7,14 +7,19 @@ categories_dict = {
 
 # Dictionary of lists for each category
 categories_lists = {
-    "rainbow": ["red", "orange", "yellow", "green", "blue", "indigo", "violet"],#--------------------- Easy
+    "rainbow": ["red", "orange", "yellow", "green", "blue", "indigo", "violet"],
     "numbers": ["twelve", "three", "eleven", "nine", "ten", "fifteen"],
     "safari": ["zebra", "lion", "cheetah", "elephant", "giraffe", "hippo"], 
     "fruits": ["apple", "banana", "orange", "mango", "kiwi", "guava"],
-    "asean": ["malaysia", "singapore", "philippines", "brunei", "thailand", "vietnam"], #--------------------- Intermediate
+    "asean": ["malaysia", "singapore", "philippines", "brunei", "thailand", "vietnam"], 
     "occupations": ["dentist", "nurse", "pharmacist", "physician", "engineer", "therapist"],
     "sports": ["badminton", "volleyball", "archery", "snooker", "icehockey", "taekwondo"],
     "food": ["nasilemak", "dimsum", "icecream", "hotdog", "frenchfries", "roticanai"], 
-    "python": ["problemsolving", "programming", "strings", "lists", "tuples", "dictionaries"], #--------------------- Difficult
+    "python": ["problemsolving", "programming", "strings", "lists", "tuples", "dictionaries"], 
     "html": ["webdevelopment", "worldwideweb", "headings", "paragraph", "hyperlink"],
     "css": ["layout", "appearance", "styles", "fonts", "colors"],
+
+}
+
+
+
