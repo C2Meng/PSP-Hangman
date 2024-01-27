@@ -116,11 +116,14 @@ def mini_game():
                              current_turn += 1
                              current_word = generate_word()
                              user_input = ""
-                         elif user_input == current_word and current_turn == max_turns:
-                             win_msg = f"Yay! You won in {current_turn} turns!"
-                             user_input = ""
+                             if current_turn == max_turns:
+                                 win_msg = "Congrats! You win a second chance"
+                                 user_input = ""
+                             else:
+                                 current_word = generate_word()
+                                 user_input = ""
                          else:
-                             lose_msg = f"Uh oh! You lost in {current_turn} turn(s)" 
+                             lose_msg = "Oh no! You lost your chance..." 
                              user_input = ""
 
                      elif event.key == pygame.K_BACKSPACE:
@@ -151,8 +154,8 @@ def mini_game():
              screen.blit(target_surface, target_rect)
 
      # render user output
-             output_rect = output_surface.get_rect(center=(width // 2, height // 4))
-             screen.blit(output_surface, output_rect)
+             x_position, y_position = 90, 300
+             screen.blit(output_surface, (x_position, y_position))
 
              pygame.display.update()
 
