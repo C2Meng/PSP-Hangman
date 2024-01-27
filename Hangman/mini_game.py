@@ -13,8 +13,8 @@ def mini_game():
      font_size = 35
 
 # font
-     font1 = pygame.font.Font("assets/Good Old DOS Smooth.ttf", 36)
-     font2 = pygame.font.Font("assets/Gellisto.ttf", 20)
+     font1 = pygame.font.Font("Good Old DOS Smooth.ttf", 36)
+     font2 = pygame.font.Font("Gellisto.ttf", 20)
                 
      screen = pygame.display.set_mode((width, height))
      pygame.display.set_caption("Welcome to the typing challenge")
@@ -66,7 +66,7 @@ def mini_game():
          x_position2, y_position2 = 20, 160
          x_position3, y_position3 = 17, 190
          x_position4, y_position4 = 15, 220
-         x_position5, y_position5 = 15, 220
+         x_position5, y_position5 = 140, 290
          screen.blit(rule_msg1, (x_position1, y_position1))
          screen.blit(rule_msg2, (x_position2, y_position2))
          screen.blit(rule_msg3, (x_position3, y_position3))  
