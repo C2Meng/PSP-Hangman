@@ -24,16 +24,21 @@ def mini_game():
          word_list = ["meow", "woof", "moo", "bagel", "chocolate", "vanilla"]
          return random.choice(word_list)
 
-# screen 1, will change the messages
+# screen 1
      def main_screen():
          
          screen.fill(black)
  
-         welcome_msg1 = font2.render("Welcome to the typing challenge!", True, white)
-         welcome_msg2 = font2.render("Press Enter to start", True, white)
+         welcome_msg1 = font2.render("You thought it was over?", True, white)
+         welcome_msg2 = font2.render("Defeat this Typing Challenge for a second chance!", True, white) 
+         welcome_msg3 = font2.render("Press Enter to start", True, white)
 
-         screen.blit(welcome_msg1, (width // 4, height // 4))
-         screen.blit(welcome_msg2, (width // 4, height // 2))
+         x_position1, y_position1 = 145,170
+         x_position2, y_position2 = 30, 200
+         x_position3, y_position3 = 155, 300
+         screen.blit(welcome_msg1, (x_position1, y_position1))
+         screen.blit(welcome_msg2, (x_position2, y_position2))
+         screen.blit(welcome_msg3, (x_position3, y_position3))
 
          pygame.display.update()
 
@@ -45,8 +50,44 @@ def mini_game():
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                        return
-                
-# screen 2               
+                    
+ # screen 2   
+     def rule_screen():
+         
+         screen.fill(black)
+ 
+         rule_msg1 = font2.render("Rules:", True, white)
+         rule_msg2 = font2.render("1. You have 5 ATTEMPTS", True, white) 
+         rule_msg3 = font2.render("2. Retype the word on the screen as fast as you can", True, white)
+         rule_msg4 = font2.render("3. To win, retype all the words accurately", True, white)
+         rule_msg5 = font2.render("4. You will lose immediately if you input wrongly", True, white)
+         rule_msg6 = font2.render("Press Enter to continue", True, white)
+
+         x_position1, y_position1 = 230,100
+         x_position2, y_position2 = 20, 160
+         x_position3, y_position3 = 17, 190
+         x_position4, y_position4 = 15, 220
+         x_position5, y_position5 = 15, 250
+         x_position6, y_position6 = 150, 350
+         screen.blit(rule_msg1, (x_position1, y_position1))
+         screen.blit(rule_msg2, (x_position2, y_position2))
+         screen.blit(rule_msg3, (x_position3, y_position3))
+         screen.blit(rule_msg4, (x_position4, y_position4))  
+         screen.blit(rule_msg5, (x_position5, y_position5)) 
+         screen.blit(rule_msg6, (x_position6, y_position6)) 
+
+         pygame.display.update()
+
+         while True:
+             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                   pygame.quit()
+                   sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                       return
+    
+# screen 3      
      def game_screen():
          global current_turn, win_msg, lose_msg
 
@@ -57,7 +98,7 @@ def mini_game():
          win_msg = ""
          lose_msg = ""
          extra_msg = ""
-         
+
          if current_turn < max_turns:
             current_word = generate_word()
 
@@ -75,7 +116,7 @@ def mini_game():
                              current_turn += 1
                              current_word = generate_word()
                              user_input = ""
-                         elif current_turn == max_turns and user_input == current_word:
+                         elif user_input == current_word and current_turn == max_turns:
                              win_msg = f"Yay! You won in {current_turn} turns!"
                              user_input = ""
                          else:
@@ -110,18 +151,18 @@ def mini_game():
              screen.blit(target_surface, target_rect)
 
      # render user output
-             x_position, y_position = 200,50
              output_rect = output_surface.get_rect(center=(width // 2, height // 4))
-             screen.blit(output_surface, (x_position,y_position))
+             screen.blit(output_surface, output_rect)
 
              pygame.display.update()
 
     # End of the game
-             if current_turn > max_turns:
+             if current_turn > max_turns :
                  pygame.quit()
                  sys.exit()
 
      main_screen()
+     rule_screen()
      game_screen()
 
 mini_game()
