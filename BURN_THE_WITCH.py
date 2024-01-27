@@ -21,7 +21,7 @@
 
 import pygame,sys
 import random
-from list_of_words import choose_category, name_category
+from list_of_words import categories_lists, categories_dict
 
 pygame.init()
 #screen
@@ -43,18 +43,20 @@ status_png[4] = pygame.image.load("assets/firekeeper5.png")
 status_png[5] = pygame.image.load("assets/firekeeper6.png") 
 player = pygame.image.load("assets/knight.png")
 
+#level difficulty
+level = 0
 
 #game vars
 win_con = False
 correct_guess =0
-wrong_guesses =[]##-------
+wrong_guesses =[]
 firekeeper_status = 0
 attempts = 5
 win = False
 lose = False
+
 #user input
 input_letter = ''
-input_choice = ''
 
 #fonts
 font1 = pygame.font.SysFont('times new roman',60)
@@ -64,27 +66,40 @@ menu_text = pygame.font.SysFont('times new roman', 80)
 small_text = pygame.font.SysFont('times new roman', 20)
 dialogue_text = pygame.font.SysFont('times new roman', 30)
 
-#words lists
-def category():
+#blit texts shortcut
+def blit_text(text, position):
+     text = font2.render(text, True, "white")
+     screen.blit(text, position)
+
+
+#categories to choose from
+def category(level_categories):
     global result
+    global input_choice
+    input_choice = ''
+
+    def input_choice_display():
+        input_choice_text = font2.render(input_choice, True, "green")
+        input_rect = pygame.Rect(375,150,200,50)
+        pygame.draw.rect(screen, "white", input_rect,2)
+        screen.blit(input_choice_text, (input_rect.x + 5, input_rect.y + 5 ))
+    
+    def blit_categories_dict(categories):
+            blit_text("Type a category, hit enter: ", (325,100))
+            y_position = 225
+            for i in categories_dict[categories]:
+                blit_text(i,(425, y_position) )
+                y_position += 50
+    
+
+    
+    
     running = True
     while running:
           screen.fill("black")
-
-          choose_category_text = font2.render("Press a number to choose a category: ", True, "white")
-          fruits = font2.render("0 - Animals", True, "white")
-          animals = font2.render("1 - Fruits", True, "white")
-          colours = font2.render("2 - Colours", True, "white")
-          numbers = font2.render("3 - Numbers", True, "white")
-
-          screen.blit(choose_category_text, (250, 125))
-          screen.blit(fruits, (400, 200))
-          screen.blit(animals, (400, 250))
-          screen.blit(colours, (400, 300))
-          screen.blit(numbers, (400, 350))
-
-
-
+          blit_categories_dict(level_categories)
+          input_choice_display()
+          
           for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
@@ -92,21 +107,26 @@ def category():
                         sys.exit()
 
                     if event.type == pygame.KEYDOWN:
-                        input_choice = event.unicode.lower()
-
-                        if input_choice.isalpha():
-                              main_menu()
-                        elif  input_choice.isdigit():
-                              result = int(input_choice)
-                              if result < 4:
-                                   pygame.time.delay(500)
-                                   game()
-                              else:
-                                   main_menu()
+                        if event.key == pygame.K_RETURN:
+                          result = input_choice
+                          if result in categories_dict[level_categories]:
+                                game()
+                          else:
+                                main_menu()
+                        if event.key == pygame.K_BACKSPACE:
+                          input_choice = input_choice[:-1]
                         else:
-                             main_menu()
+                          input_choice += event.unicode.lower()
+                            
+                        
+                        
+                        
+            
+                         
+                     
 
-
+    
+          
           pygame.display.update()
 
 #word generator
@@ -114,19 +134,21 @@ def word_gen():
     global hidden_word 
     global guessed_word
     global category_title
+    
 
-    word = choose_category[result] #result is chosen category
+    word = categories_lists[result] #result is chosen category
     guessed_word = random.choice(word) #randomiser
-    category_title = name_category[result] #title of chosen category
+    category_title = result #title of chosen category
     hidden_word = ["_"] * len(guessed_word)  
+    
 #reset the game
-
 def reset():
      global win_con
      global correct_guess
      global wrong_guesses
      global attempts
      global firekeeper_status
+     
      
      win_con = False
      word_gen()
@@ -169,8 +191,10 @@ def win_screen():
                     
                     if event.type == pygame.KEYDOWN:
                                 if event.key == pygame.K_RETURN:
-                                    category()
-                                    #Sofia, put a category2() function here, then we can proceed.
+                                    if level == 1:
+                                        category("intermediate_categories")
+                                    if level == 2:
+                                        category("difficult_categories")
 
                                 elif event.key == pygame.K_ESCAPE:
                                      pygame.quit()
@@ -268,6 +292,8 @@ def game():
      global win_con
      global win
      global lose
+     global level
+     
 
      
      word_gen()
@@ -276,16 +302,6 @@ def game():
           screen.blit(background, (0,0))
           screen.blit(status_png[firekeeper_status],(630,150))
           screen.blit(player, (10,265))
-          #word randomiser
-          #def randomiser():
-               #return random.choice(words)
-                
-          #word display
-          #randomiser()
-          
-
-          #text = game_text.render(word_display ,1, 'black')
-          #screen.blit(text, ( 400,200))
           
 
           #displays
@@ -304,7 +320,6 @@ def game():
             screen.blit(alphabet_only_text, (20, 55))
             attempts_text = font2.render(f"Attempts left:  {attempts}", True, "white")
             screen.blit(attempts_text, (20,20))
-
 
           def display_lose():
             win_surface= pygame.Surface((1000,300))
@@ -325,13 +340,12 @@ def game():
             screen.blit(win_text, (50,450))
           
           def display_category():
-            category_text = font1.render(str(category_title), True, "grey")
-            screen.blit(category_text, (415,80))
-
+            category_text = font2.render(category_title, True, "white")
+            screen.blit(category_text, (800,10))
           
           display_guess_word()
           display_attempts()
-          display_wrong_guesses() ##-------S
+          display_wrong_guesses() 
           display_category()
                
             
@@ -361,14 +375,15 @@ def game():
                                         wrong_guesses.append(input_letter)
                                         attempts -= 1
                                         firekeeper_status += 1
-
-
-
-
-
-
-
-          
+          #to display levels
+          if level == 0:
+               blit_text("level 1 : easy", (400, 10))
+          if level == 1:
+               blit_text("level 2 : intermediate", (400, 10))
+          if level == 2:
+               blit_text("level 3 : difficult", (400, 10))
+            
+          #win/lose condition     
           if attempts <= 0:
                 display_lose()
                 win_con = True
@@ -378,6 +393,8 @@ def game():
                 display_win()
                 win_con = True
                 win = True
+                level += 1
+                
 
           
           pygame.display.update()
@@ -422,7 +439,7 @@ def main_menu():
 
                 if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                     pygame.time.delay(200)
-                    category()
+                    category("easy_categories")
 
         pygame.display.update()
 
@@ -430,7 +447,6 @@ def main_menu():
 
 main_menu()
 pygame.quit()
-    
 
         
     
