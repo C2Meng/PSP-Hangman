@@ -71,7 +71,7 @@ def mini_game():
          screen.blit(rule_msg2, (x_position2, y_position2))
          screen.blit(rule_msg3, (x_position3, y_position3))  
          screen.blit(rule_msg4, (x_position4, y_position4)) 
-         screen.blit(rule_msg4, (x_position5, y_position5)) 
+         screen.blit(rule_msg5, (x_position5, y_position5)) 
 
          pygame.display.update()
 
