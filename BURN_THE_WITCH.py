@@ -11,12 +11,8 @@
 
 # ********************************************************* 
 # TO DO LIST
-# 1. option button for difficulty 
 # 2. user login screen
 # 3. leaderboard
-# 4. minigame
-# 5. intro screen
-# 6. game repeat loop (I.E: asking user want play again anot (Y/N)) done
 # ********************************************************* 
 
 import pygame,sys
@@ -33,7 +29,7 @@ background = pygame.image.load("assets/background3.jpg")
 background = pygame.transform.scale(background, (1000,600))
 pygame.display.set_caption("Burn the Witch!")
 
-#import images 
+#import images #chan
 status_png = [0,1,2,3,4,5]
 status_png[0] = pygame.image.load("assets/firekeeper1.png")
 status_png[1] = pygame.image.load("assets/firekeeper2.png")
@@ -76,7 +72,7 @@ def blit_text(text, position, colour):
      screen.blit(text, position)
 
 
-#categories to choose from
+#categories to choose from #sofia
 def category(level_categories):
     global result
     global input_choice
@@ -135,7 +131,7 @@ def category(level_categories):
               
           pygame.display.update()
 
-#word generator
+#word generator #chan
 def word_gen():
     global hidden_word, guessed_word, category_title
     
@@ -144,7 +140,7 @@ def word_gen():
     category_title = result #title of chosen category
     hidden_word = ["_"] * len(guessed_word)  
     
-#reset the game
+#reset the game #chan
 def reset():
      global win_con, mini_loss, correct_guess, wrong_guesses, attempts, firekeeper_status,chance, first_try, chance
      
@@ -161,6 +157,7 @@ def reset():
      chance = random.choice(chance)
 
 #def leaderboard():
+     #chan
 def win_screen():
      #this part resets the game values 
      
@@ -230,6 +227,7 @@ def win_screen():
                     
 
           pygame.display.update()
+    #chan
 
 def lose_screen():
      global win, lose, level
@@ -269,8 +267,7 @@ def lose_screen():
 
           pygame.display.update()
      
-#def quit():
-def intro():
+def user_info():
      
     running = True
     while running:
@@ -318,32 +315,28 @@ def easter_egg():
           running = False
           sys.exit()   
 
-#def mini_gen():
-    #global chance
-    #chance = [ "Yes", "No", "Yes", "No"]
-    #chance = random.choice(chance)
-
-
+#WINNIE
 def mini_game():
 
      global attempts, firekeeper_status
 
 # display variables
-     width, height = 500,500
+     width, height = 1000,600
      white = (255, 255, 255)
      black = (0, 0, 0)
-     font_size = 35
+   
 
 # font
-     font1 = pygame.font.Font("assets/Good Old DOS Smooth.ttf", 36)
-     font2 = pygame.font.Font("assets/Gellisto.ttf", 20)
+     font1 = pygame.font.Font("assets/Good Old DOS Smooth.ttf", 40)
+     font2 = pygame.font.Font("assets/Gellisto.ttf", 40)
                 
      screen.fill("black")
   
 
 # to generate the random words ( will change the words later )
      def generate_word():
-         word_list = ["moo"]
+         word_list = ["sesquipedalianism", "trichotillomania", "incomprehensibility", "interdisciplinary",
+                       "surreptitious", "hypothetically","floccinaucinihilipilification"]
          return random.choice(word_list)
 
 # screen 1
@@ -353,11 +346,11 @@ def mini_game():
  
          welcome_msg1 = font2.render("You thought it was over?", True, white)
          welcome_msg2 = font2.render("Defeat this Typing Challenge for a second chance!", True, white) 
-         welcome_msg3 = font2.render("Press Enter to start", True, white)
+         welcome_msg3 = font1.render("Press Enter to start", True, white)
 
-         x_position1, y_position1 = 145,170
-         x_position2, y_position2 = 30, 200
-         x_position3, y_position3 = 155, 300
+         x_position1, y_position1 = 280,170
+         x_position2, y_position2 = 40, 220
+         x_position3, y_position3 = 260, 400
          screen.blit(welcome_msg1, (x_position1, y_position1))
          screen.blit(welcome_msg2, (x_position2, y_position2))
          screen.blit(welcome_msg3, (x_position3, y_position3))
@@ -378,17 +371,17 @@ def mini_game():
          
          screen.fill(black)
  
-         rule_msg1 = font2.render("Rules:", True, white)
-         rule_msg2 = font2.render("1. You have 5 ATTEMPTS", True, white) 
+         rule_msg1 = font2.render("RULES:", True, white)
+         rule_msg2 = font2.render("1. You have 5 ATTEMPTS only", True, white) 
          rule_msg3 = font2.render("2. To win, retype all the words accurately", True, white)
          rule_msg4 = font2.render("3. You will lose immediately if you input wrongly", True, white)
-         rule_msg5 = font2.render("Press Enter to continue", True, white)
+         rule_msg5 = font1.render("Press Enter to continue", True, white)
 
-         x_position1, y_position1 = 230,100
-         x_position2, y_position2 = 20, 160
-         x_position3, y_position3 = 17, 190
-         x_position4, y_position4 = 15, 220
-         x_position5, y_position5 = 140, 290
+         x_position1, y_position1 = 450,100
+         x_position2, y_position2 = 40, 160
+         x_position3, y_position3 = 27, 200
+         x_position4, y_position4 = 35, 240
+         x_position5, y_position5 = 200, 450
          screen.blit(rule_msg1, (x_position1, y_position1))
          screen.blit(rule_msg2, (x_position2, y_position2))
          screen.blit(rule_msg3, (x_position3, y_position3))  
@@ -474,7 +467,7 @@ def mini_game():
              screen.blit(target_surface, target_rect)
 
      # render user output
-             x_position, y_position = 90, 300
+             x_position, y_position = 190, 350
              screen.blit(output_surface, (x_position, y_position))
 
              pygame.display.update()
@@ -597,7 +590,7 @@ def game():
                                     input_letter = input_letter [:-1]
                                 else:
                                     input_letter = event.unicode.lower()
-
+                                #sofia
                                 # Check if the letter is in the guessed word
                                 if input_letter.isalpha():
                                    if input_letter in guessed_word:
@@ -701,8 +694,12 @@ def main_menu():
 main_menu()
 pygame.quit()
 
+        
+    
+    
     
         
+    
     
     
     
