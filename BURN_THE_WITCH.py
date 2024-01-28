@@ -268,7 +268,7 @@ def lose_screen():
           pygame.display.update()
      
 def user_info():
-     
+     #call category(easy_categories) here instead of in main_menu()
     running = True
     while running:
           screen.fill("black")
