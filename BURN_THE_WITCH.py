@@ -13,6 +13,7 @@
 import pygame,sys
 import shutil
 import random
+from pygame import mixer
 from list_of_words import categories_lists, categories_dict
 
 pygame.init()
@@ -24,6 +25,10 @@ screen = pygame.display.set_mode((1000,600))
 background = pygame.image.load("assets/background3.jpg")
 background = pygame.transform.scale(background, (1000,600))
 pygame.display.set_caption("Burn the Witch!")
+
+#bg music and audios
+souls_music = mixer.music.load("assets/souls_music.mp3")
+
 
 #import images #chan
 status_png = [0,1,2,3,4,5]
@@ -42,12 +47,15 @@ level = 0
 win_con = False
 correct_guess =0
 wrong_guesses =[]
+
 firekeeper_status = 0
 attempts = 5
 first_try = True
+
 mini_loss = False
 win = False
 lose = False
+
 chance = ["Yes"]
 chance = random.choice(chance)
 
@@ -58,6 +66,7 @@ input_letter = ''
 font1 = pygame.font.SysFont('times new roman',60)
 font2 = pygame.font.SysFont('times new roman',30)
 game_text = pygame.font.SysFont('times new roman',40)
+
 menu_text = pygame.font.SysFont('times new roman', 80)
 small_text = pygame.font.SysFont('times new roman', 20)
 dialogue_text = pygame.font.SysFont('times new roman', 30)
@@ -160,6 +169,7 @@ def reset():
      firekeeper_status = 0   
      chance = ["Yes", "No", "Yes", "No"]
      chance = random.choice(chance)
+     
 
 def update_leaderboard(player, stage):
     with open(LEADERBOARD_FILE, "a") as leaderboard_file:
@@ -173,6 +183,7 @@ def display_leaderboard():
               age = profile[1]
               gender = profile[2]
               faculty = profile[3]
+
               running = True
               while running:
 
@@ -191,16 +202,16 @@ def display_leaderboard():
                     
                     achiev1 = font2.render(achiev[0], True, "yellow")
                     screen.blit(achiev1, (300,200)) 
+
                     achiev2 = font2.render(achiev[1], True, "yellow")
                     screen.blit(achiev2, (300,250))
+
                     achiev3 = font2.render(achiev[2], True, "yellow")
                     screen.blit(achiev3, (300,300))
-
-                
+                    
                 blit_text_small(f"Age: {age}", (300,350), "grey")
                 blit_text_small(f"Gender: {gender}", (300,380), "grey")
                 blit_text_small(f"Faculty: {faculty}", (300,410), "grey")
-                    
                         
                     
                 
@@ -212,6 +223,7 @@ def display_leaderboard():
                         display_text()
                         for line in leaderboard_file:
                             achiev.append(line.strip())
+
                         display_achiev()   
                        
 
@@ -230,27 +242,27 @@ def display_leaderboard():
                             if event.key == pygame.K_RETURN:
                                     if level == 1 or level == 4:
                                         category("intermediate_categories")
+                                        
                                     if level == 2 or level == 5:
                                         category("difficult_categories")
+
                                     if level == 3 or level == 6:
                                          main_menu()
 
                 pygame.display.update()
           
 def create_user_profile():
-    #placeholders
+    
     global profile,user
     profile_input = ''
-
     wrong_input = False
-
 
     def input_box(text,xPos,yPos,xRec,yRec):
         input_rect = pygame.Rect(xPos,yPos,xRec,yRec)
         pygame.draw.rect(screen, "white", input_rect,2)
         blit_text(text, (input_rect.x + 5, input_rect.y + 5 ), "green")
 
-
+    
     running = True
     while running:
           
@@ -280,34 +292,37 @@ def create_user_profile():
                             profile_input = profile_input[:-1]
                         else:
                             profile_input += event.unicode.lower()
+          
           if wrong_input == True:
               blit_text("please complete all info", (325,500) ,"red")
-          
           pygame.display.update()
 
 #chan
 def win_screen():
      #this part resets the game values 
      
-     global win
-     global lose
+     global win, lose
+     
+
      if level == 1:
          update_leaderboard(user.title(), "Friend Zone achieved")
+
      if level == 2:
          update_leaderboard(user.title(), "Couple achieved")
+
      if level == 3:
         update_leaderboard(user.title(), "Marriage achieved")
          
      running = True
      while running:
+          
           screen.fill("black")
         
           def display_win():
-            #win_surface= pygame.Surface((1000,80))
-            #screen.blit(win_surface, (0,100))
-            #some dialogues
+            
             win_text = menu_text.render("YOU WIN", True, "yellow")
             screen.blit(win_text, (300,200))
+
             if level == 1 or level == 4:
                 subtext = small_text.render("Press enter to continue", True , "white")
                 screen.blit(subtext, (380,300))
@@ -332,6 +347,10 @@ def win_screen():
                 subtext = small_text.render("You and the firekeeper live happily ever after again, congratulations.", True , "yellow")
                 screen.blit(subtext, (200,300))
 
+                end = mixer.Sound("assets/dies_irae.mp3")
+                end.play()
+
+
           #resetting game vars
           reset()
           win = False
@@ -341,17 +360,22 @@ def win_screen():
         
           
           for event in pygame.event.get():
+                    
                     if event.type == pygame.QUIT:
+
                         pygame.quit()
                         running = False
                         sys.exit()
                     
                     if event.type == pygame.KEYDOWN:
                                 if event.key == pygame.K_RETURN:
+
                                     if level == 1 or level == 4:
                                         category("intermediate_categories")
+
                                     if level == 2 or level == 5:
                                         category("difficult_categories")
+
                                     if level == 3 or level == 6:
                                          display_leaderboard()
                                         
@@ -372,25 +396,35 @@ def win_screen():
     #chan
 
 def lose_screen():
-     global win, lose, level
+     global win, lose, level, fire
      
+     pygame.mixer.music.stop()
 
+     lose_sound = mixer.Sound("assets/lose.mp3")
+     fire = mixer.Sound("assets/fire.mp3")
+
+     lose_sound.play()
+     fire.play()
+         
      level = 0
      running = True
      while running:
+          
           screen.fill("black")
-
+          
           #text displays
           def display_lose():
-            #lose_surface= pygame.Surface((1000,80))
-            #screen.blit(lose_surface, (0,100))
+            
             lose_text = menu_text.render("YOU LOST", True, "red")
             screen.blit(lose_text, (300,200))
 
             subtext = small_text.render("With this character's death, the thread of prophecy has been severed.", True , "red")
             subtext2 = small_text.render("Restart the game to restore the weave of fate, or persist in the doomed world you have created.", True, "red")
+            
             screen.blit(subtext,(220,300))
             screen.blit(subtext2,(115,320))
+            
+            
             
           reset()
           lose = False
@@ -399,6 +433,7 @@ def lose_screen():
           
           for event in pygame.event.get():
                     if event.type == pygame.QUIT:
+
                         pygame.quit()
                         running = False
                         sys.exit()
@@ -423,6 +458,7 @@ def easter_egg():
             egg_text = "I will not let you ruin our marriage."
             egg = small_text.render(egg_text, 1, "red")
             screen.blit(egg, (330,270))
+
             close_text = "shutting down......"
             close = small_text.render(close_text, 1, "red")
             screen.blit(close,(405,310) )
@@ -430,6 +466,7 @@ def easter_egg():
                     
           for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+
                     pygame.quit()
                     running = False
                     sys.exit()
@@ -480,6 +517,7 @@ def mini_game():
          x_position1, y_position1 = 280,170
          x_position2, y_position2 = 40, 220
          x_position3, y_position3 = 260, 400
+
          screen.blit(welcome_msg1, (x_position1, y_position1))
          screen.blit(welcome_msg2, (x_position2, y_position2))
          screen.blit(welcome_msg3, (x_position3, y_position3))
@@ -491,6 +529,7 @@ def mini_game():
                 if event.type == pygame.QUIT:
                    pygame.quit()
                    sys.exit()
+
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                        return
@@ -511,6 +550,7 @@ def mini_game():
          x_position3, y_position3 = 27, 200
          x_position4, y_position4 = 35, 240
          x_position5, y_position5 = 200, 450
+
          screen.blit(rule_msg1, (x_position1, y_position1))
          screen.blit(rule_msg2, (x_position2, y_position2))
          screen.blit(rule_msg3, (x_position3, y_position3))  
@@ -524,6 +564,7 @@ def mini_game():
                 if event.type == pygame.QUIT:
                    pygame.quit()
                    sys.exit()
+
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                        return
@@ -546,16 +587,20 @@ def mini_game():
 # loop for game
          while True:
              for event in pygame.event.get():
+                 
                  if event.type == pygame.QUIT:
                      pygame.quit()
                      sys.exit()
+
                  elif event.type == pygame.KEYDOWN:
                      if event.key == pygame.K_RETURN:
 
                          if user_input == current_word:
+                             
                              current_turn += 1
                              current_word = generate_word()
                              user_input = ""
+
                              if current_turn == max_turns:
                                  win_msg = "Congrats! You win a second chance"
                                  user_input = ""
@@ -564,6 +609,7 @@ def mini_game():
                              else:
                                  current_word = generate_word()
                                  user_input = ""
+
                          else:
                              lose_msg ="That's incorrect! You lose BIG time"
                              
@@ -572,14 +618,17 @@ def mini_game():
 
                      elif event.key == pygame.K_BACKSPACE:
                          user_input = user_input[:-1]
+
                      else:
                          user_input += event.unicode.lower()
                 
     # for output message
              if win_msg:
                  output_surface = font2.render(win_msg, True, white)
+
              elif lose_msg:
                  output_surface = font2.render(lose_msg, True, white)
+
              else: 
                  output_surface = font2.render("", True, white)
 
@@ -606,6 +655,7 @@ def mini_game():
                 win_msg = "Congrats! You win a second chance"
                 pygame.display.update()
                 pygame.time.delay(2000)
+
                 attempts = 1
                 firekeeper_status = 4
                 chance = "No"
@@ -615,6 +665,7 @@ def mini_game():
                  lose_msg ="That's incorrect! You lose BIG time"
                  pygame.display.update
                  user_input = ""
+
                  attempts = 0
                  firekeeper_status = 5
                  chance = "No"
@@ -654,8 +705,10 @@ def game():
           def display_attempts():
             attempts_surface = pygame.Surface((280,65))
             screen.blit(attempts_surface, (15,15))
+            
             alphabet_only_text = small_text.render("Start guessing to save the witch", True, "grey")
             screen.blit(alphabet_only_text, (20, 55))
+            
             attempts_text = font2.render(f"Attempts left:  {attempts}", True, "white")
             screen.blit(attempts_text, (20,20))
 
@@ -663,34 +716,69 @@ def game():
             screen.fill("black")
             win_surface= pygame.Surface((1000,300))
             screen.blit(win_surface, (0,400))
+            
             pygame.time.delay(500)
+            
             char_text = font2.render("Firekeeper", True, "grey")
             screen.blit(char_text, (50,420))
+           
             win_text = dialogue_text.render('"AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"',True, "red")
+            
+            scream = mixer.Sound("assets/scream.mp3")
+            scream.play()
             screen.blit(win_text, (50,450))
 
           def display_win():
             global level
+            
             screen.fill("black")
+            
             win_surface= pygame.Surface((1000,300))
             screen.blit(win_surface, (0,400))
+            
             pygame.time.delay(500)
+            
             char_text = font2.render("Firekeeper", True, "grey")
             screen.blit(char_text, (50,420))
+            
             if level == 0:  
                 win_text = dialogue_text.render('"Thank you for saving me, you are now my best friend :)."', True, "light green")
+                win_1 = mixer.Sound("assets/laugh.mp3")
+                win_1.play()
+
+
             if level == 1:
                 win_text = dialogue_text.render('"Thank you for saving me again, will you become my partner?"', True, "pink")
+                win_2 = mixer.Sound("assets/bell.mp3")
+                win_2.play()
+
+
             if level == 2:
                 win_text = dialogue_text.render('"Lets get married !"', True, "red") 
+                mixer.music.stop()
+                win_3 = mixer.Sound("assets/choir.mp3")
+                win_3.play()
+
+
             if level == 3:
                 win_text = dialogue_text.render('"Thank you for saving me."', True, "light green")
+                win_1 = mixer.Sound("assets/laugh.mp3")
+                win_1.play()
+
+
             if level == 4:
                 win_text = dialogue_text.render('"Why do I keep getting kidnapped anyways??"', True, "white")
+                win_5 = mixer.Sound("assets/bell2.mp3")
+                win_5.play()
+
+
             if level == 5:
                 win_text = dialogue_text.render('"This the part where we get married. Nobody will get between us."', True, "red")  
+                win_6 = mixer.Sound("assets/evil_end.mp3")
+                win_6.play()
+
             screen.blit(win_text, (50,450))
- 
+
           
           def display_category():
             category_text = font2.render(category_title, True, "white")
@@ -708,29 +796,35 @@ def game():
      
           
           for event in pygame.event.get():
+                        
                         if event.type == pygame.QUIT:
+
                             pygame.quit()
                             running = False
                             sys.exit()
                         
                         if win_con == False:   
                             if event.type == pygame.KEYDOWN:
+
                                 if event.key == pygame.K_BACKSPACE:
                                     input_letter = input_letter [:-1]
+
                                 else:
                                     input_letter = event.unicode.lower()
+
                                 #sofia
-                                # Check if the letter is in the guessed word
                                 if input_letter.isalpha():
                                    if input_letter in guessed_word:
                                         for i in range(len(guessed_word)):
                                              if guessed_word[i] == input_letter:
                                                   hidden_word[i] = input_letter        
                                                   
+
                                    elif input_letter not in guessed_word and input_letter not in wrong_guesses:
                                         wrong_guesses.append(input_letter)
                                         attempts -= 1
                                         firekeeper_status += 1
+
                                 else:
                                     wrong_input = True
 
@@ -741,11 +835,15 @@ def game():
           #to display levels
           if level == 0 or level == 3:
                blit_text("level 1 : easy", (400, 10), "white")
+
           if level == 1 or level == 4:
                blit_text("level 2 : intermediate", (400, 10), "white")
+
           if level == 2 or level == 5:
                blit_text("level 3 : difficult", (400, 10), "white")
+
          
+
           #win/lose condition     
           if attempts <= 0:
                 
@@ -781,7 +879,7 @@ def game():
 
 def main_menu():
     global achiev,level
-
+    mixer.music.play(-1)
     running = True
     color_loop = True
     while running:
@@ -797,23 +895,25 @@ def main_menu():
         text_2 = small_text.render(sub_display, 1, "white")
         screen.blit(text_2, (386,400))
         
-        #while color_loop:
-             #text_2 = small_text.render(sub_display, 1, "grey")
-             #text_2 = small_text.render(sub_display, 1, "white")
+       
         if level == 3:
             achiev1 = small_text.render(achiev[0], True, "yellow")
             screen.blit(achiev1, (700,15)) 
+
             achiev2 = small_text.render(achiev[1], True, "yellow")
             screen.blit(achiev2, (700,35))
+
             achiev3 = small_text.render(achiev[2], True, "yellow")
             screen.blit(achiev3, (700,55))
                     
     
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+
                     pygame.quit()
                     running = False
                     sys.exit()
+                    
                 if level <6:
                      
                     if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
@@ -832,6 +932,9 @@ def main_menu():
 
  
 main_menu()  
+    
+    
+        
     
      
     
