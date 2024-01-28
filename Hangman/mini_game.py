@@ -7,21 +7,20 @@ def mini_game():
      pygame.init()
 
 # display variables
-     width, height = 500,500
+     width, height = 1000,600
      white = (255, 255, 255)
      black = (0, 0, 0)
-     font_size = 35
 
 # font
-     font1 = pygame.font.Font("Good Old DOS Smooth.ttf", 36)
-     font2 = pygame.font.Font("Gellisto.ttf", 20)
+     font1 = pygame.font.Font("Good Old DOS Smooth.ttf", 40)
+     font2 = pygame.font.Font("Gellisto.ttf", 40)
                 
      screen = pygame.display.set_mode((width, height))
      pygame.display.set_caption("Welcome to the typing challenge")
 
 # to generate the random words ( will change the words later )
      def generate_word():
-         word_list = ["sesquipedalianism", "trichotillomania", "incomprehensibility", "interdisciplinary", "surreptitious", "hypothetically"]
+         word_list = ["sesquipedalianism", "trichotillomania", "incomprehensibility", "interdisciplinary", "surreptitious", "hypothetically", "floccinaucinihilipilification"]
          return random.choice(word_list)
 
 # screen 1
@@ -31,11 +30,11 @@ def mini_game():
  
          welcome_msg1 = font2.render("You thought it was over?", True, white)
          welcome_msg2 = font2.render("Defeat this Typing Challenge for a second chance!", True, white) 
-         welcome_msg3 = font2.render("Press Enter to start", True, white)
+         welcome_msg3 = font1.render("Press Enter to start", True, white)
 
-         x_position1, y_position1 = 145,170
-         x_position2, y_position2 = 30, 200
-         x_position3, y_position3 = 155, 300
+         x_position1, y_position1 = 280,170
+         x_position2, y_position2 = 40, 220
+         x_position3, y_position3 = 260, 400
          screen.blit(welcome_msg1, (x_position1, y_position1))
          screen.blit(welcome_msg2, (x_position2, y_position2))
          screen.blit(welcome_msg3, (x_position3, y_position3))
@@ -56,17 +55,17 @@ def mini_game():
          
          screen.fill(black)
  
-         rule_msg1 = font2.render("Rules:", True, white)
-         rule_msg2 = font2.render("1. You have 5 ATTEMPTS", True, white) 
+         rule_msg1 = font2.render("RULES:", True, white)
+         rule_msg2 = font2.render("1. You have 5 ATTEMPTS only", True, white) 
          rule_msg3 = font2.render("2. To win, retype all the words accurately", True, white)
          rule_msg4 = font2.render("3. You will lose immediately if you input wrongly", True, white)
-         rule_msg5 = font2.render("Press Enter to continue", True, white)
+         rule_msg5 = font1.render("Press Enter to continue", True, white)
 
-         x_position1, y_position1 = 230,100
-         x_position2, y_position2 = 20, 160
-         x_position3, y_position3 = 17, 190
-         x_position4, y_position4 = 15, 220
-         x_position5, y_position5 = 140, 290
+         x_position1, y_position1 = 450,100
+         x_position2, y_position2 = 40, 160
+         x_position3, y_position3 = 27, 200
+         x_position4, y_position4 = 35, 240
+         x_position5, y_position5 = 200, 450
          screen.blit(rule_msg1, (x_position1, y_position1))
          screen.blit(rule_msg2, (x_position2, y_position2))
          screen.blit(rule_msg3, (x_position3, y_position3))  
@@ -94,7 +93,6 @@ def mini_game():
          max_turns = 5
          win_msg = ""
          lose_msg = ""
-         extra_msg = ""
 
          if current_turn < max_turns:
             current_word = generate_word()
@@ -130,19 +128,18 @@ def mini_game():
     # for output message
              if win_msg:
                  output_surface = font2.render(win_msg, True, white)
-                 screen.blit(output_surface, (90, 300))
+                 screen.blit(output_surface, (190, 350))
                  pygame.display.update()
-                 pygame.time.delay(2000)  # Display the message for 2 seconds
-                 break  # Exit the game loop if the player wins
+                 pygame.time.delay(2000)  # display the message for 2 seconds
+                 break  # exit the game loop if the player wins
              elif lose_msg:
                   output_surface = font2.render(lose_msg, True, white)
-                  screen.blit(output_surface, (90, 300))
+                  screen.blit(output_surface, (190, 350))
                   pygame.display.update()
-                  pygame.time.delay(2000)  # Display the message for 2 seconds
-                  break  # Exit the game loop if the player loses
+                  pygame.time.delay(2000)  # display the message for 2 seconds
+                  break  # exit the game loop if the player loses
              else: 
                  output_surface = font2.render("", True, white)
-
 
              screen.fill(black)
 
@@ -171,6 +168,5 @@ def mini_game():
      main_screen()
      rule_screen()
      game_screen()
-
 
 mini_game()
