@@ -157,6 +157,23 @@ def reset():
      chance = random.choice(chance)
 
 #def leaderboard():
+
+def user_info():
+     
+    running = True
+    while running:
+          screen.fill("black")
+
+          #call category(easy_categories) here instead of in main_menu() 
+          for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        running = False
+                        sys.exit()
+
+
+          pygame.display.update()
+
      #chan
 def win_screen():
      #this part resets the game values 
@@ -266,22 +283,7 @@ def lose_screen():
                         main_menu()
 
           pygame.display.update()
-     
-def user_info():
-     #call category(easy_categories) here instead of in main_menu()
-    running = True
-    while running:
-          screen.fill("black")
 
-
-          for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        running = False
-                        sys.exit()
-
-
-          pygame.display.update()
 
 def easter_egg():
      
