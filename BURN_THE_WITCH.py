@@ -158,23 +158,80 @@ def reset():
 
 #def leaderboard():
 
-def user_info():
+def create_user_profile():
+    global profile
+    profile_input = ''
+    
+    def input_box(text,xPos,yPos,xRec,yRec):
+        input_rect = pygame.Rect(xPos,yPos,xRec,yRec)
+        pygame.draw.rect(screen, "white", input_rect,2)
+        blit_text(text, (input_rect.x + 5, input_rect.y + 5 ), "green")
+           
      
     running = True
     while running:
           screen.fill("black")
+          input_box(profile_input,200,240,570,50)
+          blit_text("type your profile: name | age | gender | faculty ", (200, 150), "white")
+          blit_text("use SPACE to separate the info, hit enter to continue ", (190, 350), "grey")
 
-          #call category(easy_categories) here instead of in main_menu() 
+
+          
           for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         running = False
                         sys.exit()
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            profile = profile_input.split()
+                            if len(profile) < 3:
+                                break
+                            else:
+                                leaderboard() #chan please change to category("easy_categories")
+                        if event.key == pygame.K_BACKSPACE:
+                            profile_input = profile_input[:-1]
+                        else:
+                            profile_input += event.unicode.lower()
+
+  
 
 
           pygame.display.update()
 
-     #chan
+def leaderboard():
+    global profile
+    #maybe can save this info into leaderboard.txt too..?
+    username = profile[0]
+    age = profile[1]
+    gender = profile[2]
+    faculty = profile[3]
+    
+    
+
+    running = True
+    while running:
+          screen.fill("black")
+          blit_text(f"Username: {username}", (0,0), "white")
+          blit_text(f"Age: {age}", (0,50), "white")
+          blit_text(f"Gender: {gender}", (0,100), "white")
+          blit_text(f"Faculty: {faculty}", (0,150), "white")
+          
+
+          
+          for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        running = False
+                        sys.exit()
+                   
+     
+
+
+
+          pygame.display.update()
+
+#chan
 def win_screen():
      #this part resets the game values 
      
@@ -683,7 +740,7 @@ def main_menu():
                      
                     if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                         pygame.time.delay(200)
-                        category("easy_categories")
+                        create_user_profile()
 
                     elif level == 6:
                         easter_egg()
@@ -696,12 +753,5 @@ def main_menu():
 main_menu()
 pygame.quit()
 
-        
-    
-    
-    
-        
-    
-    
     
     
