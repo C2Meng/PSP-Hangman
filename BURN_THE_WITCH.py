@@ -9,13 +9,9 @@
 # Phones: +60 18-258 1460 | +60 14-716 7690 | +60 16-903 5825 | +60 12-529 3192
 # ********************************************************* 
 
-# ********************************************************* 
-# TO DO LIST
-# 2. user login screen
-# 3. leaderboard
-# ********************************************************* 
 
 import pygame,sys
+import shutil
 import random
 from list_of_words import categories_lists, categories_dict
 
@@ -66,6 +62,10 @@ menu_text = pygame.font.SysFont('times new roman', 80)
 small_text = pygame.font.SysFont('times new roman', 20)
 dialogue_text = pygame.font.SysFont('times new roman', 30)
 
+#leaderboard// Summary (Yang Yi)
+LEADERBOARD_FILE = "leaderboard.txt"
+file_to_reset = open("leaderboard.txt",'w')
+file_to_reset.close()
 #blit texts shortcut
 def blit_text(text, position, colour):
      text = font2.render(text, True, colour)
@@ -131,7 +131,7 @@ def category(level_categories):
               
           pygame.display.update()
 
-#word generator #chan
+#word generator 
 def word_gen():
     global hidden_word, guessed_word, category_title
     
@@ -156,79 +156,118 @@ def reset():
      chance = ["Yes", "No", "Yes", "No"]
      chance = random.choice(chance)
 
-#def leaderboard():
+def update_leaderboard(player, stage):
+    with open(LEADERBOARD_FILE, "a") as leaderboard_file:
+        leaderboard_file.write(f"{player} : {stage}\n")
 
+def display_leaderboard():
+              global achiev, profile
+              achiev = []
+
+              username = profile[0]
+              age = profile[1]
+              gender = profile[2]
+              faculty = profile[3]
+              running = True
+              while running:
+
+                screen.fill("black")
+                def display_text():
+                    lead_text = font1.render("Summary", True, "white")
+                    screen.blit(lead_text, (357,30))
+
+                def display_achiev():
+                    global level
+                    if level < 1:
+                        
+                        achiev0 = font2.render("Much empty, continue playing for achievements!"), True, "yellow"
+                        screen.blit(achiev0, (100,200))
+
+                    
+                    achiev1 = font2.render(achiev[0], True, "yellow")
+                    screen.blit(achiev1, (200,200)) 
+                    achiev2 = font2.render(achiev[1], True, "yellow")
+                    screen.blit(achiev2, (200,250))
+                    achiev3 = font2.render(achiev[2], True, "yellow")
+                    screen.blit(achiev3, (200,300))
+                    
+                        
+                    
+                
+                    
+                    
+
+
+                with open(LEADERBOARD_FILE, "r") as leaderboard_file:
+                        display_text()
+                        for line in leaderboard_file:
+                            achiev.append(line.strip())
+                        display_achiev()   
+                       
+
+                            
+                            
+                
+
+                for event in pygame.event.get():
+
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        running = False
+                        sys.exit()
+
+                    if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_RETURN:
+                                    if level == 1 or level == 4:
+                                        category("intermediate_categories")
+                                    if level == 2 or level == 5:
+                                        category("difficult_categories")
+                                    if level == 3 or level == 6:
+                                         main_menu()
+
+                pygame.display.update()
+          
 def create_user_profile():
-    global profile
+    #placeholders
+    global profile,user
     profile_input = ''
-    
+
     def input_box(text,xPos,yPos,xRec,yRec):
         input_rect = pygame.Rect(xPos,yPos,xRec,yRec)
         pygame.draw.rect(screen, "white", input_rect,2)
         blit_text(text, (input_rect.x + 5, input_rect.y + 5 ), "green")
-           
-     
+
+
     running = True
     while running:
+          
           screen.fill("black")
           input_box(profile_input,200,240,570,50)
           blit_text("type your profile: name | age | gender | faculty ", (200, 150), "white")
           blit_text("use SPACE to separate the info, hit enter to continue ", (190, 350), "grey")
 
 
-          
           for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         running = False
                         sys.exit()
+
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             profile = profile_input.split()
+                            user = profile[0]
                             if len(profile) < 3:
                                 break
+
                             else:
-                                leaderboard() #chan please change to category("easy_categories")
+                                category("easy_categories") 
                         if event.key == pygame.K_BACKSPACE:
                             profile_input = profile_input[:-1]
                         else:
                             profile_input += event.unicode.lower()
-
-  
-
-
-          pygame.display.update()
-
-def leaderboard():
-    global profile
-    #maybe can save this info into leaderboard.txt too..?
-    username = profile[0]
-    age = profile[1]
-    gender = profile[2]
-    faculty = profile[3]
-    
-    
-
-    running = True
-    while running:
-          screen.fill("black")
-          blit_text(f"Username: {username}", (0,0), "white")
-          blit_text(f"Age: {age}", (0,50), "white")
-          blit_text(f"Gender: {gender}", (0,100), "white")
-          blit_text(f"Faculty: {faculty}", (0,150), "white")
           
-
           
-          for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        running = False
-                        sys.exit()
-                   
-     
-
-
-
           pygame.display.update()
 
 #chan
@@ -237,28 +276,37 @@ def win_screen():
      
      global win
      global lose
-
+     if level == 1:
+         update_leaderboard(user.title(), "Friend Zone achieved")
+     if level == 2:
+         update_leaderboard(user.title(), "Couple achieved")
+     if level == 3:
+        update_leaderboard(user.title(), "Marriage achieved")
+         
      running = True
      while running:
           screen.fill("black")
-
+        
           def display_win():
             #win_surface= pygame.Surface((1000,80))
             #screen.blit(win_surface, (0,100))
-            
+            #some dialogues
             win_text = menu_text.render("YOU WIN", True, "yellow")
             screen.blit(win_text, (300,200))
             if level == 1 or level == 4:
                 subtext = small_text.render("Press enter to continue", True , "white")
                 screen.blit(subtext, (380,300))
+                
 
             if level == 2:
                 subtext = small_text.render("You get engaged.", True , "white")
                 screen.blit(subtext, (405,300))
-            
+                
+
             if level == 3:
                 subtext = small_text.render("You and the firekeeper live happily ever after, congratulations.", True , "yellow")
                 screen.blit(subtext, (225,300))
+                
 
             if level == 5:
                 subtext = small_text.render("You get engaged, again.", True , "white")
@@ -268,6 +316,7 @@ def win_screen():
             if level == 6:
                 subtext = small_text.render("You and the firekeeper live happily ever after again, congratulations.", True , "yellow")
                 screen.blit(subtext, (200,300))
+
           #resetting game vars
           reset()
           win = False
@@ -289,10 +338,14 @@ def win_screen():
                                     if level == 2 or level == 5:
                                         category("difficult_categories")
                                     if level == 3 or level == 6:
-                                         main_menu()
-                                    
+                                         display_leaderboard()
+                                        
+                                
+
                                          
-                                         
+                                
+
+
                                 elif event.key == pygame.K_ESCAPE:
                                      pygame.quit()
                                      running = False
@@ -339,9 +392,10 @@ def lose_screen():
                         pygame.time.delay(200)
                         main_menu()
 
+                    
+
           pygame.display.update()
-
-
+     
 def easter_egg():
      
      
@@ -349,12 +403,12 @@ def easter_egg():
      while running:
           screen.fill("black")
          
-          counter = 0
+          
           def egg():
             egg_text = "I will not let you ruin our marriage."
             egg = small_text.render(egg_text, 1, "red")
             screen.blit(egg, (330,270))
-            close_text = "casting spell......"
+            close_text = "shutting down......"
             close = small_text.render(close_text, 1, "red")
             screen.blit(close,(405,310) )
           
@@ -369,7 +423,7 @@ def easter_egg():
 
           egg()
           pygame.display.update()                             
-          pygame.time.delay(3000)
+          pygame.time.delay(4000)
           pygame.quit()
           running = False
           sys.exit()   
@@ -395,7 +449,8 @@ def mini_game():
 # to generate the random words ( will change the words later )
      def generate_word():
          word_list = ["sesquipedalianism", "trichotillomania", "incomprehensibility", "interdisciplinary",
-                       "surreptitious", "hypothetically","floccinaucinihilipilification"]
+                       "surreptitious", "hypothetically","floccinaucinihilipilification", "subductisupercilicarptor"
+                       "Euouae"]
          return random.choice(word_list)
 
 # screen 1
@@ -710,7 +765,8 @@ def game():
                
 
 def main_menu():
-    
+    global achiev,level
+
     running = True
     color_loop = True
     while running:
@@ -729,7 +785,14 @@ def main_menu():
         #while color_loop:
              #text_2 = small_text.render(sub_display, 1, "grey")
              #text_2 = small_text.render(sub_display, 1, "white")
-
+        if level == 3:
+            achiev1 = small_text.render(achiev[0], True, "yellow")
+            screen.blit(achiev1, (700,15)) 
+            achiev2 = small_text.render(achiev[1], True, "yellow")
+            screen.blit(achiev2, (700,35))
+            achiev3 = small_text.render(achiev[2], True, "yellow")
+            screen.blit(achiev3, (700,55))
+                    
     
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -739,19 +802,25 @@ def main_menu():
                 if level <6:
                      
                     if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
-                        pygame.time.delay(200)
-                        create_user_profile()
+                        if level ==0:
+                            pygame.time.delay(200)
+                            create_user_profile()
+                        else:
+                            category("easy_categories")
+                        
 
-                    elif level == 6:
-                        easter_egg()
+                if level == 6:
+                    easter_egg()
                      
 
         pygame.display.update()
 
-
-
-main_menu()
-pygame.quit()
-
+ 
+main_menu()  
+    
+    
+        
+    
+    
     
     
