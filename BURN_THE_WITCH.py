@@ -66,9 +66,14 @@ dialogue_text = pygame.font.SysFont('times new roman', 30)
 LEADERBOARD_FILE = "leaderboard.txt"
 file_to_reset = open("leaderboard.txt",'w')
 file_to_reset.close()
+
 #blit texts shortcut
 def blit_text(text, position, colour):
      text = font2.render(text, True, colour)
+     screen.blit(text, position)
+
+def blit_text_small(text, position, colour):
+     text = small_text.render(text, True, colour)
      screen.blit(text, position)
 
 
@@ -173,8 +178,8 @@ def display_leaderboard():
 
                 screen.fill("black")
                 def display_text():
-                    lead_text = font1.render("Summary", True, "white")
-                    screen.blit(lead_text, (357,30))
+                    lead_text = font1.render(f"your summary, {username}", True, "white")
+                    screen.blit(lead_text, (200,50))
 
                 def display_achiev():
                     global level
@@ -185,11 +190,16 @@ def display_leaderboard():
 
                     
                     achiev1 = font2.render(achiev[0], True, "yellow")
-                    screen.blit(achiev1, (200,200)) 
+                    screen.blit(achiev1, (300,200)) 
                     achiev2 = font2.render(achiev[1], True, "yellow")
-                    screen.blit(achiev2, (200,250))
+                    screen.blit(achiev2, (300,250))
                     achiev3 = font2.render(achiev[2], True, "yellow")
-                    screen.blit(achiev3, (200,300))
+                    screen.blit(achiev3, (300,300))
+
+                
+                blit_text_small(f"Age: {age}", (300,350), "grey")
+                blit_text_small(f"Gender: {gender}", (300,380), "grey")
+                blit_text_small(f"Faculty: {faculty}", (300,410), "grey")
                     
                         
                     
@@ -232,6 +242,9 @@ def create_user_profile():
     global profile,user
     profile_input = ''
 
+    wrong_input = False
+
+
     def input_box(text,xPos,yPos,xRec,yRec):
         input_rect = pygame.Rect(xPos,yPos,xRec,yRec)
         pygame.draw.rect(screen, "white", input_rect,2)
@@ -258,6 +271,7 @@ def create_user_profile():
                             profile = profile_input.split()
                             user = profile[0]
                             if len(profile) < 3:
+                                wrong_input = True
                                 break
 
                             else:
@@ -266,7 +280,8 @@ def create_user_profile():
                             profile_input = profile_input[:-1]
                         else:
                             profile_input += event.unicode.lower()
-          
+          if wrong_input == True:
+              blit_text("please complete all info", (325,500) ,"red")
           
           pygame.display.update()
 
@@ -817,6 +832,8 @@ def main_menu():
 
  
 main_menu()  
+    
+     
     
     
         
