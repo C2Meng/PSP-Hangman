@@ -71,8 +71,8 @@ small_text = pygame.font.SysFont('times new roman', 20)
 dialogue_text = pygame.font.SysFont('times new roman', 30)
 
 #blit texts shortcut
-def blit_text(text, position):
-     text = font2.render(text, True, "white")
+def blit_text(text, position, colour):
+     text = font2.render(text, True, colour)
      screen.blit(text, position)
 
 
@@ -80,29 +80,34 @@ def blit_text(text, position):
 def category(level_categories):
     global result
     global input_choice
+    
     input_choice = ''
 
     def input_choice_display():
-        input_choice_text = font2.render(input_choice, True, "green")
         input_rect = pygame.Rect(375,150,200,50)
         pygame.draw.rect(screen, "white", input_rect,2)
-        screen.blit(input_choice_text, (input_rect.x + 5, input_rect.y + 5 ))
-    
+        blit_text(input_choice, (input_rect.x + 5, input_rect.y + 5 ), "green")
+         
     def blit_categories_dict(categories):
-            blit_text("Type a category, hit enter: ", (325,100))
-            y_position = 225
-            for i in categories_dict[categories]:
-                blit_text(i,(425, y_position) )
-                y_position += 50
-    
+        blit_text("Type a category, hit ENTER: ", (325,100), "white")
+        y_position = 225
+        for i in categories_dict[categories]:
+            blit_text(i,(425, y_position), "white")
+            y_position += 50
 
-    
+    def error_message():
+        blit_text("Input not in category, hit BACKSPACE to edit", (215,500), "red")
+
+    wrong_input = False
+
+
     
     running = True
     while running:
           screen.fill("black")
           blit_categories_dict(level_categories)
           input_choice_display()
+
           
           for event in pygame.event.get():
                     if event.type == pygame.QUIT:
@@ -116,21 +121,18 @@ def category(level_categories):
                           if result in categories_dict[level_categories]:
                                 game()
                           else:
-                                main_menu()
+                              wrong_input = True
+                              break
                         if event.key == pygame.K_BACKSPACE:
                           input_choice = input_choice[:-1]
                         else:
                           input_choice += event.unicode.lower()
-                            
-                        
-                        
                         
             
-                         
-                     
+          if wrong_input == True:
+              error_message()
 
-    
-          
+              
           pygame.display.update()
 
 #word generator
@@ -508,6 +510,8 @@ def game():
      if first_try == True:      
         word_gen()
         first_try = False
+
+     wrong_input = False 
      
      running = True 
      while running:
@@ -564,21 +568,21 @@ def game():
             if level == 5:
                 win_text = dialogue_text.render('"This the part where we get married. Nobody will get between us."', True, "red")  
             screen.blit(win_text, (50,450))
-
-        
-                
-                
+ 
           
           def display_category():
             category_text = font2.render(category_title, True, "white")
             screen.blit(category_text, (800,10))
+          
+          def error_message_2():
+            blit_text("please type alphabets only", (350,500), "grey")
           
           display_guess_word()
           display_attempts()
           display_wrong_guesses() 
           display_category()
                
-            
+           
      
           
           for event in pygame.event.get():
@@ -594,7 +598,7 @@ def game():
                                 else:
                                     input_letter = event.unicode.lower()
 
-                                    # Check if the letter is in the guessed word
+                                # Check if the letter is in the guessed word
                                 if input_letter.isalpha():
                                    if input_letter in guessed_word:
                                         for i in range(len(guessed_word)):
@@ -605,13 +609,20 @@ def game():
                                         wrong_guesses.append(input_letter)
                                         attempts -= 1
                                         firekeeper_status += 1
+                                else:
+                                    wrong_input = True
+
+          if wrong_input == True:
+              error_message_2()
+              
+                                        
           #to display levels
           if level == 0 or level == 3:
-               blit_text("level 1 : easy", (400, 10))
+               blit_text("level 1 : easy", (400, 10), "white")
           if level == 1 or level == 4:
-               blit_text("level 2 : intermediate", (400, 10))
+               blit_text("level 2 : intermediate", (400, 10), "white")
           if level == 2 or level == 5:
-               blit_text("level 3 : difficult", (400, 10))
+               blit_text("level 3 : difficult", (400, 10), "white")
          
           #win/lose condition     
           if attempts <= 0:
@@ -690,9 +701,6 @@ def main_menu():
 main_menu()
 pygame.quit()
 
-        
-    
-    
     
         
     
